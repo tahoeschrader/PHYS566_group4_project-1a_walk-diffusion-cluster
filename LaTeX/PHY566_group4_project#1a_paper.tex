@@ -1,4 +1,4 @@
-%%% Group 4: Tahoe, Ksenia, Xinmeng
+%%% Group 4: Tahoe, Ksenia Sokolova, Xinmeng
 %%% Computational Physics
 %%% Spring, 2017
 
@@ -80,7 +80,7 @@ The spatial expectation value, $\langle x(t)^2\rangle$, of Equation~\ref{eq:gaus
 
 \subsection{Random Walks in 2D}
 \label{sec:computationsRandomWalk}
-To code for the basic 2D walk, we assume that the probability to step in either direction left, right, up or down is the same. Then, for every step, we generate a random number. This is equivalent to drawing from Uniform (0,1). We assign every move to one of the segments of .25. If the random numbers falls within that value, we move in the assigned direction. 
+To code for the basic 2D walk, we assume that the probability to step in either direction left, right, up or down is the same. Then, for every step, we generate a random number. This is equivalent to drawing from Uniform (0,1). We assign every move to one of the segments of .25. If the random numbers falls within that value, we move in the assigned direction. The evidence for a successfully coded $2D$ walker program is given in Figure~\ref{fig:20steps} and \ref{fig:1000steps}.
 
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
@@ -89,13 +89,13 @@ To code for the basic 2D walk, we assume that the probability to step in either 
 \endminipage\hfill
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{run1000.png}
-  \caption{1000-step random walk}\label{fig:1000step}
+  \caption{1000-step random walk}\label{fig:1000steps}
 \endminipage\hfill
 \end{figure}
 
 \subsection{Diffusion of a Box Density Distribution}
 \label{sec:diffusion-boxdensity}
-Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Five different snapshots in time were then fit against Equation~\ref{eqn:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution.
+Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Five different snapshots in time were then fit against Equation~\ref{eq:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution.
 
 %%% PUT THAT PLOT HERE
 
