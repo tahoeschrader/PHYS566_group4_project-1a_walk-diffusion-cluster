@@ -31,4 +31,25 @@ from lmfit import Model                 # Curve fitting package
 ################################################################################
 
 # ------------------------------------------------------------------------------
+
 diffconst = 2.0                 # diffusion constant
+size = 100                      # x dimension has a length of 100
+sizesteps = .1                  # an xdimension stepsize <1 is ideal
+peak = 1.0                      # this is where the box density sharply peaks
+
+# ------------------------------------------------------------------------------
+
+################################################################################
+### Define the diffusion equation solver
+################################################################################
+def diffusion1D(duration) :
+    # Initialize the density vector
+    density = np.zeros((int(size/sizesteps),duration))
+
+    # Define the initial box density to be sharply peaked over a few sites in x
+    gridsize[0:10,:] = peak
+
+    #
+    return
+
+# INCOMPLETE
