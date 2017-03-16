@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.8.3)  15 MAR 2017 19:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.8.3)  16 MAR 2017 19:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -583,41 +583,46 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 40.
 (c:/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+<run20.png, id=1, 578.16pt x 433.62pt>
+File: run20.png Graphic file (type png)
+ <use run20.png>
+Package pdftex.def Info: run20.png used on input line 87.
+(pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-LaTeX Warning: Reference `eqn:gaussiandistribution' on page 1 undefined on inpu
-t line 79.
+<run1000.png, id=3, 578.16pt x 433.62pt>
+File: run1000.png Graphic file (type png)
+ <use run1000.png>
+Package pdftex.def Info: run1000.png used on input line 91.
+(pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
+ [1
 
-[1
-
-{c:/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./PHY566_group4_project#1a_paper.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+{c:/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2 <./run20.png
+> <./run1000.png>] (./PHY566_group4_project#1a_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 5312 strings out of 493093
- 73818 string characters out of 6138557
- 155227 words of memory out of 5000000
- 8704 multiletter control sequences out of 15000+600000
- 11994 words of font info for 46 fonts, out of 8000000 for 9000
+ 5337 strings out of 493093
+ 74148 string characters out of 6138557
+ 156261 words of memory out of 5000000
+ 8724 multiletter control sequences out of 15000+600000
+ 13648 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,8n,43p,404b,203s stack positions out of 5000i,500n,10000p,200000b,80000s
-<c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/tex
-live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><c:/texlive/2015/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2015/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr12.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-17.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/
-texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/201
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2015/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on PHY566_group4_project#1a_paper.pdf (1 page, 124134 bytes).
+ 44i,11n,43p,537b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
+<c:/texlive/2015/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2015/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2015/texmf-dist/fonts/type1
+/public/amsfonts/cmextra/cmex9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi6.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmmi9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2015/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2015/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmssbx10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy9.pfb>
+Output written on PHY566_group4_project#1a_paper.pdf (2 pages, 268273 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 68 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
