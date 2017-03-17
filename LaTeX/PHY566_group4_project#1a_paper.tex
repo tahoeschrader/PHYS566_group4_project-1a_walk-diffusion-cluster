@@ -72,8 +72,28 @@ We will use an initial density profile that is sharply peaked around $x=0$, but 
 \end{equation}
 where $\sigma(t) = \sqrt{2Dt}$.
 
-The spatial expectation value, $\langle x(t)^2\rangle$, of Equation~\ref{eq:gaussiandistribution} is equal to $\sigma(t)^2$.
-%%% NEED TO SHOW THIS IS TRUE. WILL PUT THAT PROOF HERE
+The spatial expectation value, $\langle x(t)^2\rangle$, of Equation~\ref{eq:gaussiandistribution} is equal to $\sigma(t)^2$. Expectation values are calculated according to the equation
+\begin{equation}
+  \label{eq:expectationvalue}
+  \langle x\rangle = \int_{-\infty}^\infty f(x)xdx,
+\end{equation}
+where $f(x)$ is the Guassian normal distribution for our purposes. Because we are looking for $\langle x^2\rangle$, Equation~\ref{eq:expectationvalue} becomes
+\begin{align}
+  \label{eq:spatialexpectationvalueintegral}
+  \langle x^2\rangle &= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi\sigma(t)^2}}\exp\left(-\frac{x^2}{2\sigma(t)^2}\right) x^2 dx \notag \\
+  &= 2\int_{0}^\infty \frac{1}{\sqrt{2\pi\sigma(t)^2}}\exp\left(-\frac{x^2}{2\sigma(t)^2}\right) x^2 dx.
+\end{align}
+The last step can be done because the $x^2$ term makes it an even function being symmetrically integrated about zero. Now, we make a change of variable $(x=\sigma\sqrt{2})$ to obtain, after a couple steps of algebra,
+\begin{equation}
+  \label{eq:spatialexpectationvalue-simplified}
+  \langle x^2\rangle = \frac{4\sigma^2}{\sqrt{\pi}}\int_0^\infty x^2 \exp(-x^2)dx.
+\end{equation}
+Integrating the above equation by parts yields
+\begin{equation}
+  \label{eq:variancesolved}
+  \langle x^2 \rangle = \sigma^2
+\end{equation}
+Typically, we call this equation the variance. % I used mathematica for the last step because actually integrating by parts was pretty difficult and too many steps to type out. Do you think this is okay?
 
 \section{Computations}
 \label{sec:computations}
