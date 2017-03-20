@@ -32,7 +32,7 @@ letterpaper]{geometry}%
 
 % Article Information
 \title{Random Walks, the Diffusion Equation, and Cluster Growth}
-\author{Tahoe Schrader, Ksenia Sokolova, Xinmeng \\PHYS566}
+\author{Tahoe Schrader, Ksenia Sokolova, Xinmeng Tong \\PHYS566}
 \date{}
 
 % Begin writing document
@@ -63,7 +63,11 @@ After using the formal definition of derivatives and algebraically manipulating 
   \label{eq:diffusioneqn-iterable}
   \rho(i,n+1) = \rho(i,n) + \frac{D\Delta t}{\Delta x^2}\left(\rho(i+1,n) + \rho(i-1,n) - 2\rho(i,n)\right),
 \end{equation}
-where $\Delta t$ and $\Delta x$ are the step sizes in an iteration. This solution requires knowledge of initial conditions. We must assume that the $x$ displacement is known at times prior to and including $t_n = n\Delta t$. Two consecutive steps prior to the first unknown step is sufficient to solve such an equation.
+where $\Delta t$ and $\Delta x$ are the step sizes in an iteration. This solution requires knowledge of initial conditions. We must assume that the $x$ displacement is known at times prior to and including $t_n = n\Delta t$. Two consecutive steps prior to the first unknown step is sufficient to solve such an equation. Finally, to guarantee stability, the following criterion must be met
+\begin{equation}
+  \label{eq:stabilitycriterion}
+  \Delta t \leq \frac{(\Delta x)^2}{2D}.
+\end{equation}
 
 We will use an initial density profile that is sharply peaked around $x=0$, but extends over a few grid sites to resemble a box. This is sufficient for generating the solution to the diffusion equation. Interestingly, after a couple iterations, the box profile will diffuse into a Gaussian normal distribution. The $1D$ Gaussian normal distribution has the form,
 \begin{equation}
@@ -115,9 +119,37 @@ To code for the basic 2D walk, we assume that the probability to step in either 
 
 \subsection{Diffusion of a Box Density Distribution}
 \label{sec:diffusion-boxdensity}
-Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Five different snapshots in time were then fit against Equation~\ref{eq:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution.
+Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Five different snapshots in time were then fit against Equation~\ref{eq:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution. This $1D$ diffusion solver was performed for an initial box shaped density, shown in Figure~\ref{fig:probdensityinit}.
+\begin{figure}[!htb]
+\centerline{\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityinit.png}
+  \caption{initial box-shaped density}\label{fig:probdensityinit}
+\endminipage}
+\end{figure}
 
-%%% PUT THAT PLOT HERE
+In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity5}, we took snapshots of the $1D$ density equation and fit a Gaussian to the solution. A value of $\sigma$ was then extracted and compared to the analytical solution, $\sigma=\sqrt{2Dt}$. As can be seen, the fit worked well during early time snapshots but got progressively worse. 
+\begin{figure}[!htb]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt1.png}
+  \caption{$1D$ density after time evolution}\label{fig:probdensity1}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt2.png}
+  \caption{$1D$ density after time evolution}\label{fig:probdensity2}
+\endminipage\hfill \\
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt3.png}
+  \caption{$1D$ density after time evolution}\label{fig:probdensity3}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt4.png}
+  \caption{$1D$ density after time evolution}\label{fig:probdensity4}
+\endminipage\hfill
+\centerline{\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt5.png}
+  \caption{$1D$ density after time evolution}\label{fig:probdensity5}
+\endminipage}
+\end{figure}
 
 \end{document} % This ends our document
 
