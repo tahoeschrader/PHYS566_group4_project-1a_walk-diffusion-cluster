@@ -31,7 +31,7 @@ def randomWalk2D(x0,y0,n):
 	# random seed
 	random.seed()
 	# loop through
-	for i in range(0,n):
+	for i in range(0,n-1):
 		# get a random number in range (0,1)
 		rand=random.random()
 		# Assume equal probability to step in 4 directions
@@ -95,7 +95,6 @@ plt.xlabel('distance $x$ ',fontsize=25)
 plt.ylabel('distance $y$',fontsize=25)
 
 plt.grid(True)
-plt.savefig("LaTeX/run20.png")
 plt.show()
 
 # Call the random walker function for a test of 1000 steps
@@ -115,53 +114,63 @@ plt.xlabel('distance $x$ ',fontsize=25)
 plt.ylabel('distance $y$',fontsize=25)
 
 plt.grid(True)
-plt.savefig("LaTeX/run1000.png")
 plt.show()
 
 # ------------------------------------------------------------------------------
 
                                 # PLOT TWO
 # This plot will be of <xn> and <xn^2> up to n=100, averaged over 10^4 walks.
-# First, we must obtain this data. A loop is run that calls randomWalk2D x 10^4
 
-# Want a for loop to run a random walker over a bunch of different n's. Initialize
-# the averaged displacement vectors
-xn = numpy.zeros(100)					# we are told to solve for n=100 values
-xn2 = numpy.zeros(100)
+# We run a for-loop that calls the random walker 10^4 number of times (can be varied: runs)
+# Then save the x-coordinate for every run in a matrix, where every run is a column
+# And save the x^2-coordinate for every run in a  separate matrix
+# In a separate for loop we then average over every row, and get <x> and <x^2>
 
-# Now, begin the loops
-for n in range(4,104) :				    # skip n=0,1,2,3 because they are trivial
-	# Initialize the displacement vector to have 10^4 spots to be averaged
-	displacement = numpy.zeros(10**4)
+#Specify parameters
+runs=10000
+nSteps=100
+runX=numpy.zeros((nSteps,runs)) #empty array for mean values for x
+runX2=numpy.zeros((nSteps,runs)) #empty array for mean squared values
 
-	# Initialize a counter
-	counter = 0
+#for loop from where random walker is called and matrix for (runs) is saved
+for j in range(0,runs):
+	walk, displacement=randomWalk2D(0,0,nSteps) #get a X,Y matrix with positions
+	xValues=walk[:,0].flatten() #get x values for the random walks
+	xValuesSquared=numpy.square(xValues) #get x^2 for the walk
+	runX[:,j]=xValues #save x coordinates as one of the columns 
+	runX2[:,j]=xValuesSquared #save x^2 coordinates as one of the columns
 
-	# Begin the averaging loop
-	while counter < 10**4 :
-		position, displacement[counter] = randomWalk2D(x0G,y0G,n)
+#initialize the empty matrix for means
+meanAll=numpy.zeros(nSteps) #create an array for mean values
+meanAllSq=numpy.zeros(nSteps) #create an array for mean of x^2 values
 
-		# Add to the counter
-		counter = int(counter + 1)
+#find averages
+for row in range (0,nSteps): #for every row in the matrices runX and runX2
+		meanAll[row]=numpy.mean(runX[row,:])
+		meanAllSq[row]=numpy.mean(runX2[row,:])
+		
+#--------------- Plot <x>
+plt.plot(meanAll)
+plt.title("Mean x-position for 10 000 runs", fontsize=15)
+plt.xlabel("Step, n",fontsize=15)
+plt.ylabel("Position on x-axis",fontsize=15)
+plt.grid(True)
+plt.show()
 
-	# Average the final displacement and save it to xn and xn2. Recall we only
-	# started at 4 so I must subtract this from the index
-	xn[n-4] = sum(displacement)/n
-	xn2[n-4] = (sum(displacement)/n)**2
+#--------------- Plot <x^2>
+plt.plot(meanAllSq)
+plt.title("Mean x-squared position for 10 000 runs",fontsize=15)
+plt.xlabel("Step, n",fontsize=15)
+plt.ylabel("Value of x-squared",fontsize=15)
+plt.grid(True)
+plt.show()
 
-# Create a range of n values for plotting from 4 to 103 (thats 100 n values)
-nrange = numpy.arange(4,104)
+#---------------------------Additional plot
 
-# Now, plot
-fig = plt.figure()
-fig.suptitle('Motion over $10^4$ Walkers',fontsize=25)
-
-
-plt.plot(nrange,xn, 'k-', label='$\langle x_n \\rangle$')
-plt.plot(nrange,xn2, 'r-', label='$\langle x_n^2 \\rangle$')
-plt.xlabel('number of steps $n$ ',fontsize=25)
-plt.ylabel('displacement $x_n$',fontsize=25)
-
-plt.grid()
-plt.savefig("LaTeX/motionofmanywalkers.png")
+#--------------- Plot x for 10^4 random walks
+plt.plot(runX)
+plt.title("Position x coordinate for 10 000 runs",fontsize=15)
+plt.xlabel("Step, n",fontsize=15)
+plt.ylabel("Position on x-axis",fontsize=15)
+plt.grid(True)
 plt.show()
