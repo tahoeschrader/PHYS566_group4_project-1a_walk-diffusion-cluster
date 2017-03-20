@@ -50,7 +50,11 @@ def randomWalk2D(x0,y0,n):
 			yN=position[i,1]
 		# Add the new position to the array
 		position=numpy.vstack((position, numpy.array([xN,yN])))
-	return position
+
+	# Extract the final displacement from origin with pythagorean theorem
+	displacement = numpy.sqrt((x0 - position[n-1,0])**2 + (y0 - position[n-1,1])**2)
+
+	return position, displacement
 
 # ------------------------------------------------------------------------------
 
@@ -75,7 +79,7 @@ n20 = 20
 # working as it should.
 
 # Call the random walker function for a test of 20 steps
-positionN20 = randomWalk2D(x0G,y0G,n20)
+positionN20, displacementN20 = randomWalk2D(x0G,y0G,n20)
 
 # Take x and y for plotting
 x=positionN20[:,0]
@@ -95,7 +99,7 @@ plt.savefig("LaTeX/run20.png")
 plt.show()
 
 # Call the random walker function for a test of 1000 steps
-positionN1000 = randomWalk2D(x0G,y0G,n1000)
+positionN1000, displacementN1000 = randomWalk2D(x0G,y0G,n1000)
 
 # Take x and y for plotting
 x=positionN1000[:,0]
@@ -112,4 +116,52 @@ plt.ylabel('distance $y$',fontsize=25)
 
 plt.grid(True)
 plt.savefig("LaTeX/run1000.png")
+plt.show()
+
+# ------------------------------------------------------------------------------
+
+                                # PLOT TWO
+# This plot will be of <xn> and <xn^2> up to n=100, averaged over 10^4 walks.
+# First, we must obtain this data. A loop is run that calls randomWalk2D x 10^4
+
+# Want a for loop to run a random walker over a bunch of different n's. Initialize
+# the averaged displacement vectors
+xn = numpy.zeros(100)					# we are told to solve for n=100 values
+xn2 = numpy.zeros(100)
+
+# Now, begin the loops
+for n in range(4,104) :				    # skip n=0,1,2,3 because they are trivial
+	# Initialize the displacement vector to have 10^4 spots to be averaged
+	displacement = numpy.zeros(10**4)
+
+	# Initialize a counter
+	counter = 0
+
+	# Begin the averaging loop
+	while counter < 10**4 :
+		position, displacement[counter] = randomWalk2D(x0G,y0G,n)
+
+		# Add to the counter
+		counter = int(counter + 1)
+
+	# Average the final displacement and save it to xn and xn2. Recall we only
+	# started at 4 so I must subtract this from the index
+	xn[n-4] = sum(displacement)/n
+	xn2[n-4] = (sum(displacement)/n)**2
+
+# Create a range of n values for plotting from 4 to 103 (thats 100 n values)
+nrange = numpy.arange(4,104)
+
+# Now, plot
+fig = plt.figure()
+fig.suptitle('Motion over $10^4$ Walkers',fontsize=25)
+
+
+plt.plot(nrange,xn, 'k-', label='$\langle x_n \\rangle$')
+plt.plot(nrange,xn2, 'r-', label='$\langle x_n^2 \\rangle$')
+plt.xlabel('number of steps $n$ ',fontsize=25)
+plt.ylabel('displacement $x_n$',fontsize=25)
+
+plt.grid()
+plt.savefig("LaTeX/motionofmanywalkers.png")
 plt.show()
