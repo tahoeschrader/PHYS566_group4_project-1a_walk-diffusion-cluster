@@ -24,7 +24,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random as rng
 from datetime import datetime
-from lmfit import Model                 # Curve fitting package
+from scipy.optimize import curve_fit     # Curve fitting package
 
 ################################################################################
 ### Start with setting up the problem. Here, we create initial variables
@@ -33,12 +33,12 @@ from lmfit import Model                 # Curve fitting package
 # ------------------------------------------------------------------------------
 
 diffconst = 2.0                       # diffusion constant (given)
-xsteps = .05                          # a dx<1 is ideal for smoothness
-xlength = 5
+xsteps = .05                        # a dx<1 is ideal for smoothness
+xlength = 10
 peak = 100                            # original box shaped density peak
-tsteps = xsteps**2/(2*diffconst)/2.0  # guarantees stability if dt <= dx^2/(2D)
+tsteps = 0.3*xsteps**2/(2*diffconst)  # guarantees stability if dt <= dx^2/(2D)
                                       # so I made it .5 * dx^2/(2D) D !!!
-duration = 10
+duration = 5
 
 # ------------------------------------------------------------------------------
 
@@ -55,21 +55,19 @@ def diffusion1D() :
     x_iters = int(len(xlocation))               # total x iterations
     t_iters = int(len(tlocation))               # total t iterations
     density = np.zeros((x_iters,t_iters))       # size of all x and t
-
     # Define the boundary conditions
     # For t = 0, the first couple xlocations should be the peak size
     density[0:5,0] = peak
 
     # Iteratively solve the density equation
-    for t in range(t_iters - 1) :
-        for x in range(x_iters - 2) :
-            density[x,t+1] = density[x,t] + (diffconst * (tsteps/xsteps**2) * (density[x+1,t] + density[x-1,t] - 2.0 * density[x,t]))
-
+    for t in range(t_iters-1) :
+        for x in range(x_iters-2) :
+            density[x,t+1] = density[x,t] + diffconst * tsteps * (density[x+1,t] + density[x-1,t] - 2.0 * density[x,t])/xsteps**2
     return xlocation, density
 
 # ------------------------------------------------------------------------------
 
-def Gaussian(x,sigma,amplitude,mu):
+def gaussian(x,sigma,amplitude,mu):
     return amplitude * (1.0 / (sigma*np.sqrt(2*np.pi))) * np.exp(-((x-mu)**2/(2*sigma**2)))
 
 # ------------------------------------------------------------------------------
@@ -89,18 +87,19 @@ location,probability = diffusion1D()
 # This plot will look at the initial time snapshot of the diffusion equation
 
 # Now plot
-fig = plt.figure()
-fig.suptitle('Initial Box Density',fontsize=25)
-
+fig = plt.subplot()
+plt.title('Initial Box Density',fontsize=20)
 plt.subplot(1,1,1)
-plt.plot(location,probability[:,0],'b-',label='distribution')
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
+plt.plot(location,probability[:,0],color= 'tomato', label='distribution', lw=3)
+plt.ylabel('density',fontsize=15)
+plt.xlabel('$x$ location',fontsize=15)
 plt.legend()
 plt.grid()
 plt.axis([0,5,0,110])
-
-plt.savefig("LaTeX\probdensityinit.png")
+plt.grid()
+fig.spines["top"].set_visible(False)  
+fig.spines["right"].set_visible(False)  
+plt.savefig("probdensityinit.png")
 
 # Makes my figures show up
 plt.show()
@@ -110,94 +109,39 @@ plt.show()
 #                             # BEGIN PLOT TWO-SIX
 # This plot will look at 5 snapshots in time of the diffusion solver and fit a
 # gaussian to them. First, define points in time wrt timesteps
-t1 = 10
-t2 = 50
-t3 = 500
-t4 = 1000
-t5 = 1600
 
-# Calculate the time where we are taking snapshots
-snapshot1 = tsteps * t1
-snapshot2 = tsteps * t2
-snapshot3 = tsteps * t3
-snapshot4 = tsteps * t4
-snapshot5 = tsteps * t5
 
-# To fit the gaussian, I build the gaussian Model
-gaussianmodel = Model(Gaussian)
-fitresult1 = gaussianmodel.fit(probability[:,t1], x = location , amplitude = peak , sigma = diffconst , mu = np.sqrt(2*diffconst*snapshot1))
-fitresult2 = gaussianmodel.fit(probability[:,t2], x = location , amplitude = peak , sigma = diffconst , mu = np.sqrt(2*diffconst*snapshot2))
-fitresult3 = gaussianmodel.fit(probability[:,t3], x = location , amplitude = peak , sigma = diffconst , mu = np.sqrt(2*diffconst*snapshot3))
-fitresult4 = gaussianmodel.fit(probability[:,t4], x = location , amplitude = peak , sigma = diffconst , mu = np.sqrt(2*diffconst*snapshot4))
-fitresult5 = gaussianmodel.fit(probability[:,t5], x = location , amplitude = peak , sigma = diffconst , mu = np.sqrt(2*diffconst*snapshot5))
+t=[100,500,1600,2000,2700, 4000, int(probability.shape[1]*.1)]
 
-# Now I extract the best fit sigma's
-sigma1 = fitresult1.best_values['sigma']
-sigma2 = fitresult2.best_values['sigma']
-sigma3 = fitresult3.best_values['sigma']
-sigma4 = fitresult4.best_values['sigma']
-sigma5 = fitresult5.best_values['sigma']
 
-# Now develop plots
+# To fit the gaussian, use the scipy function
 
-fig = plt.figure()
-fig.suptitle('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f'%(snapshot1,np.sqrt(2.0*diffconst*snapshot1)),fontsize=25)
-plt.subplot(1,1,1)
-plt.plot(location,probability[:,t1],'b-',label='distribution')
-plt.plot(location, fitresult1.best_fit,'k--', linewidth = 3, label='best fit, $\sigma = $%.2f' %sigma1)
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
-plt.legend()
-plt.grid()
-plt.savefig("LaTeX\probdensityt1.png")
-plt.show()
+#iterate through times
+for i in t:
+	# Calculate the time where we are taking snapshots
+	snapshot = tsteps * i
+	#initial values for the fit
+	init_vals = [diffconst, peak, np.sqrt(2*diffconst*snapshot)]     # for (sigma,amplitude,mu)
+	
+	#fit using curve_fit package
+	best_vals, covar = curve_fit(gaussian,location, probability[:,i], p0=init_vals)
 
-fig = plt.figure()
-fig.suptitle('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f' %(snapshot2,np.sqrt(2.0*diffconst*snapshot2)),fontsize=25)
-plt.subplot(1,1,1)
-plt.plot(location,probability[:,t2],'b-',label='distribution')
-plt.plot(location, fitresult2.best_fit,'k--', linewidth = 3, label='best fit, $\sigma = $%.2f' %sigma2)
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
-plt.legend()
-plt.grid()
-plt.savefig("LaTeX\probdensityt2.png")
-plt.show()
 
-fig = plt.figure()
-fig.suptitle('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f' %(snapshot3,np.sqrt(2.0*diffconst*snapshot3)),fontsize=25)
-plt.subplot(1,1,1)
-plt.plot(location,probability[:,t3],'b-',label='distribution')
-plt.plot(location, fitresult3.best_fit,'k--', linewidth = 3, label='best fit, $\sigma = $%.2f' %sigma3)
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
-plt.legend()
-plt.grid()
-plt.savefig("LaTeX\probdensityt3.png")
-plt.show()
+	# Now develop plots
+	fig = plt.subplot()
+	plt.title('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f'%(snapshot,np.sqrt(2.0*diffconst*snapshot)),fontsize=20)
+	plt.plot(location, probability[:,i], color= 'tomato', label='distribution', lw=3)
+	plt.plot(location, gaussian(location, best_vals[0],best_vals[1],best_vals[2] ),color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit, $\sigma = $%.2f' %best_vals[0])
+	plt.ylabel('density',fontsize=15)
+	plt.xlabel('$x$ location',fontsize=15)
+	plt.ylim([0,22])
+	plt.xlim([0,5])
+	plt.legend()
+	plt.grid()
+	fig.spines["top"].set_visible(False)  
+	fig.spines["right"].set_visible(False)  
+	plt.savefig("probdensityt{}.png".format(i))
+	plt.show()
 
-fig = plt.figure()
-fig.suptitle('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f' %(snapshot4,np.sqrt(2.0*diffconst*snapshot4)),fontsize=25)
-plt.subplot(1,1,1)
-plt.plot(location,probability[:,t4],'b-',label='distribution')
-plt.plot(location, fitresult4.best_fit,'k--', linewidth = 3, label='best fit, $\sigma = $%.2f' %sigma4)
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
-plt.legend()
-plt.grid()
-plt.savefig("LaTeX\probdensityt4.png")
-plt.show()
-
-fig = plt.figure()
-fig.suptitle('$1D$ Diffusion at $t=$%g w/ $\sigma=$%.2f'%(snapshot5,np.sqrt(2.0*diffconst*snapshot5)),fontsize=25)
-plt.subplot(1,1,1)
-plt.plot(location,probability[:,t5],'b-',label='distribution')
-plt.plot(location, fitresult5.best_fit,'k--', linewidth = 3, label='best fit, $\sigma = $%.2f' %sigma5)
-plt.ylabel('density',fontsize=20)
-plt.xlabel('$x$ location',fontsize=20)
-plt.legend()
-plt.grid()
-plt.savefig("LaTeX\probdensityt5.png")
-plt.show()
 
 # INCOMPLETE
