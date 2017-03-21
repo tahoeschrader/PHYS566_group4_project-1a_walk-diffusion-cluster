@@ -9,7 +9,7 @@
 ###             --- COMPLETE
 ###       b) Solve the 1D diff. eq. using the finite difference form and a
 ###          diffusion constant of D=2.
-###             --- CURRENTLY INCOMPLETE
+###             --- COMPLETE
 ### ----------------------------------------------------------------------------
 ### We are told to start from an initial density profile that is sharply peaked
 ### around x=0, but extends over a few grid sites (box profile).
@@ -33,10 +33,10 @@ from scipy.optimize import curve_fit     # Curve fitting package
 # ------------------------------------------------------------------------------
 
 diffconst = 2.0                       # diffusion constant (given)
-xsteps = .05                        # a dx<1 is ideal for smoothness
-xlength = 10
+xsteps = .03                        # a dx<1 is ideal for smoothness
+xlength = 40
 peak = 100                            # original box shaped density peak
-tsteps = 0.3*xsteps**2/(2*diffconst)  # guarantees stability if dt <= dx^2/(2D)
+tsteps = 0.5*xsteps**2/(2*diffconst)  # guarantees stability if dt <= dx^2/(2D)
                                       # so I made it .5 * dx^2/(2D) D !!!
 duration = 5
 
@@ -57,7 +57,8 @@ def diffusion1D() :
     density = np.zeros((x_iters,t_iters))       # size of all x and t
     # Define the boundary conditions
     # For t = 0, the first couple xlocations should be the peak size
-    density[0:5,0] = peak
+    #find middle and place the peak there
+    density[60:62,0] = peak
 
     # Iteratively solve the density equation
     for t in range(t_iters-1) :
@@ -110,9 +111,10 @@ plt.show()
 # This plot will look at 5 snapshots in time of the diffusion solver and fit a
 # gaussian to them. First, define points in time wrt timesteps
 
+#max=int(probability.shape[1])
+#t=[int(0.005*max),int(0.01*max),int(0.05*max),int(0.1*max),int(0.15*max), int(0.45*max)]
 
-t=[100,500,1600,2000,2700, 4000, int(probability.shape[1]*.1)]
-
+t=[10, 55, 110,510,1600,2000]
 
 # To fit the gaussian, use the scipy function
 
@@ -134,7 +136,7 @@ for i in t:
 	plt.plot(location, gaussian(location, best_vals[0],best_vals[1],best_vals[2] ),color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit, $\sigma = $%.2f' %best_vals[0])
 	plt.ylabel('density',fontsize=15)
 	plt.xlabel('$x$ location',fontsize=15)
-	plt.ylim([0,22])
+	#plt.ylim([0,70])
 	plt.xlim([0,5])
 	plt.legend()
 	plt.grid()
@@ -143,5 +145,3 @@ for i in t:
 	plt.savefig("probdensityt{}.png".format(i))
 	plt.show()
 
-
-# INCOMPLETE
