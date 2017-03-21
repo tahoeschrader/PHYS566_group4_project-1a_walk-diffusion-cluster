@@ -98,9 +98,9 @@ plt.legend()
 plt.grid()
 plt.axis([0,5,0,110])
 plt.grid()
-fig.spines["top"].set_visible(False)  
-fig.spines["right"].set_visible(False)  
-plt.savefig("probdensityinit.png")
+fig.spines["top"].set_visible(False)
+fig.spines["right"].set_visible(False)
+plt.savefig("LaTeX/probdensityinit.png")
 
 # Makes my figures show up
 plt.show()
@@ -124,7 +124,7 @@ for i in t:
 	snapshot = tsteps * i
 	#initial values for the fit
 	init_vals = [diffconst, peak, np.sqrt(2*diffconst*snapshot)]     # for (sigma,amplitude,mu)
-	
+
 	#fit using curve_fit package
 	best_vals, covar = curve_fit(gaussian,location, probability[:,i], p0=init_vals)
 
@@ -140,8 +140,9 @@ for i in t:
 	plt.xlim([0,5])
 	plt.legend()
 	plt.grid()
-	fig.spines["top"].set_visible(False)  
-	fig.spines["right"].set_visible(False)  
-	plt.savefig("probdensityt{}.png".format(i))
+	fig.spines["top"].set_visible(False)
+	fig.spines["right"].set_visible(False)
+	plt.savefig("LaTeX/probdensityt{}.png".format(i))
 	plt.show()
 
+# COMPLETE
