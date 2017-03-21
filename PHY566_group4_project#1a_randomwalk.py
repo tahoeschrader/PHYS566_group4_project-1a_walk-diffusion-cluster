@@ -94,15 +94,14 @@ x=positionN20[:,0]
 y=positionN20[:,1]
 
 # Plot, overlay of colored scatter and line
-fig = plt.figure()
-fig.suptitle('Random walk representation ($20$ steps)',fontsize=25)
-
-plt.scatter(x,y, c=range(len(x)),marker="o",s=50)
-plt.plot(x,y, 'k')
-plt.xlabel('distance $x$ ',fontsize=25)
-plt.ylabel('distance $y$',fontsize=25)
-
-plt.grid(True)
+fig=plt.subplot()
+plt.scatter(x,y, c=range(len(x)),edgecolors='none',s=130)
+plt.plot(x,y, color='navy', lw=1)
+plt.title('Random walk representation ($20$ steps)',fontsize=20)
+plt.xlabel('distance $x$ ',fontsize=15)
+plt.ylabel('distance $y$',fontsize=15)
+plt.grid(False)
+plt.savefig('rWalk1.png')
 plt.show()
 
 # Call the random walker function for a test of 1000 steps
@@ -113,15 +112,14 @@ x=positionN1000[:,0]
 y=positionN1000[:,1]
 
 # Plot, overlay of colored scatter and line
-fig = plt.figure()
-fig.suptitle('Random walk representation ($1000$ steps)',fontsize=25)
-
-plt.scatter(x,y, c=range(len(x)),marker="o",s=50)
-plt.plot(x,y, 'k')
-plt.xlabel('distance $x$ ',fontsize=25)
-plt.ylabel('distance $y$',fontsize=25)
-
-plt.grid(True)
+fig=plt.subplot()
+plt.scatter(x,y, c=range(len(x)),s=50,edgecolors='none')
+plt.plot(x,y, color='navy', lw=1)
+plt.title('Random walk representation ($1000$ steps)',fontsize=20)
+plt.xlabel('distance $x$ ',fontsize=15)
+plt.ylabel('distance $y$',fontsize=15)
+plt.grid(False)
+plt.savefig('rWalk2.png')
 plt.show()
 
 # ------------------------------------------------------------------------------
@@ -174,35 +172,48 @@ n=range(4,nSteps) #range for n steps values for scatterplot
 
 ######## Find fit for the distance^2
 fit=numpy.polyfit(n, distAll2[4:],1)
-fitFunc=numpy.poly1d(fit) #define a function for a fit
+fitFunc=numpy.poly1d(fit)
 print("Parameters for the fit: slope = ",fit[0],"shift: ",fit[1])
 
-
-#NOTE: all graphs starts from n=4
+		
 		
 #--------------- Plot <x>
-plt.plot(meanAll[4:])
-plt.title("Mean x-position for 10 000 runs", fontsize=15)
-plt.xlabel("Step, n",fontsize=15)
-plt.ylabel("Position on x-axis",fontsize=15)
+fig1=plt.subplot()
+plt.plot(meanAll[4:], color='dodgerblue', lw=3)
+plt.title("Mean $<x>$-position for 10 000 runs", fontsize=20)
+plt.xlabel("Steps, $n$",fontsize=15)
+plt.ylabel("Position on $x$-axis",fontsize=15)
 plt.grid(True)
+fig1.spines["top"].set_visible(False)  
+fig1.spines["right"].set_visible(False)  
+plt.savefig('meanX.png')
 plt.show()
 
+
+
 #--------------- Plot <x^2>
-plt.plot(meanAllSq[4:])
-plt.title("Mean x-squared position for 10 000 runs",fontsize=15)
-plt.xlabel("Step, n",fontsize=15)
-plt.ylabel("Value of x-squared",fontsize=15)
+fig2=plt.subplot()
+plt.plot(meanAllSq[4:],color='tomato', lw=3)
+plt.title("Mean $<x^2>$ position for 10 000 runs",fontsize=20)
+plt.xlabel("Steps, $n$",fontsize=15)
+plt.ylabel("Value of $<x^2>$",fontsize=15)
 plt.grid(True)
+fig2.spines["top"].set_visible(False)  
+fig2.spines["right"].set_visible(False)  
+plt.savefig('meanX2.png')
 plt.show()
 
 ##--------------- Plot <d^2>
-plt.scatter(n,distAll2[4:])
-plt.plot(n, fitFunc(n))
-plt.title("Mean distance squared from origin for 10 000 runs",fontsize=15)
-plt.xlabel("Step, n",fontsize=15)
-plt.ylabel("Distance squared from origin",fontsize=15)
+fig3=plt.subplot()
+plt.scatter(n,distAll2[4:],color='darkorange', edgecolors='darkorange', s=30)
+plt.plot(n, fitFunc(n),color='dodgerblue', lw=3)
+plt.title("Mean $d^2$ from origin for 10 000 runs",fontsize=20)
+plt.xlabel("Steps, $n$",fontsize=15)
+plt.ylabel("Mean distance squared ($<d^2>$) from origin",fontsize=15)
 plt.grid(True)
+fig3.spines["top"].set_visible(False)  
+fig3.spines["right"].set_visible(False)  
+plt.savefig('meanD2.png')
 plt.show()
 
 ##########################################################################################
@@ -213,7 +224,7 @@ plt.show()
 
 #------- Find fit for the mean distance travelled:
 # Find log distance and log steps
-# Should be a linear function a+bx, with the slope b equal to the power of t and 'exp(a)'=scaling
+# Should be a linear function a+bx, with the slope b equal to the power of t and 'a'=scaling
 
 logN=numpy.log(n)
 logDist=numpy.log(distAll[4:])
@@ -222,34 +233,42 @@ fitLog=numpy.polyfit(logN, logDist,1)
 fitLogFunc=numpy.poly1d(fitLog)
 
 print("Parameters for the log fit: slope = ",fitLog[0],"shift: ",fitLog[1])
-print("Parameters for the power fit: power = ",fitLog[0],"scaling: ",numpy.exp(fitLog[1]))
 
 
 #--------------- Plot log<d> vs log<N>
-plt.scatter(logN,logDist)
-plt.plot(logN, fitLogFunc(logN))
-plt.title("Log-log plot, mean distance from origin,10 000 runs",fontsize=15)
-plt.xlabel("Log step, n",fontsize=15)
-plt.ylabel("Log distance from origin",fontsize=15)
+fig4=plt.subplot()
+plt.scatter(logN,logDist, color='tomato', edgecolors='tomato', s=30)
+plt.plot(logN, fitLogFunc(logN),color='dodgerblue', lw=3)
+plt.title("Log-log plot, mean distance from origin, 10 000 runs",fontsize=20)
+plt.xlabel("Log step, $log(n)$",fontsize=15)
+plt.ylabel("Log mean distance from origin, $log(<d>)$",fontsize=15)
 plt.grid(True)
+fig4.spines["top"].set_visible(False)  
+fig4.spines["right"].set_visible(False)  
+plt.savefig('meanDLog.png')
 plt.show()
 
 
 #--------------- Plot <d>
-plt.scatter(n,distAll[4:])
-plt.plot(n, numpy.exp(fitLog[1])*n**(fitLog[0]), 'r')
-plt.title("Mean distance from origin for 10 000 runs",fontsize=15)
-plt.xlabel("Step, n",fontsize=15)
-plt.ylabel("Distance from origin",fontsize=15)
+fig5=plt.subplot()
+plt.scatter(n,distAll[4:],color='tomato', edgecolors='tomato', s=30)
+plt.plot(n, numpy.exp(fitLog[1])*n**(fitLog[0]),color='dodgerblue', lw=3)
+plt.title("Mean distance from origin for 10 000 runs",fontsize=20)
+plt.xlabel("Steps, $n$",fontsize=15)
+plt.ylabel("Mean distance from origin, $<d>$",fontsize=15)
 plt.grid(True)
+fig5.spines["top"].set_visible(False)  
+fig5.spines["right"].set_visible(False)  
+plt.savefig('meanD.png')
 plt.show()
 
 #---------------------------Additional plot
 
 #--------------- Plot x for 10^4 random walks
-plt.plot(runX)
-plt.title("Position x coordinate for 10 000 runs",fontsize=15)
+plt.plot(runX, lw=2)
+plt.title("Position x coordinate for 10 000 runs",fontsize=20)
 plt.xlabel("Step, n",fontsize=15)
 plt.ylabel("Position on x-axis",fontsize=15)
 plt.grid(True)
+plt.savefig('manyXpos.png')
 plt.show()
