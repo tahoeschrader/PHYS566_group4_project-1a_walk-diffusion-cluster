@@ -44,7 +44,7 @@ def randomWalk2D(x0,y0,n):
 		rand=random.random()
 		# Assume equal probability to step in 4 directions
 		# p=0.25
-		if rand<=0.25: #step down
+		if rand<=0.25: # step down
 			xN=position[i,0]
 			yN=position[i,1]-1
 		elif .25<rand<=0.5: # step up
@@ -82,7 +82,6 @@ n20 = 20
 
 # ------------------------------------------------------------------------------
 
-                                # PLOT ONE
 # This plot is not explicitly asked for, but it shows that our random walker is
 # working as it should.
 
@@ -101,7 +100,7 @@ plt.title('Random walk representation ($20$ steps)',fontsize=20)
 plt.xlabel('distance $x$ ',fontsize=15)
 plt.ylabel('distance $y$',fontsize=15)
 plt.grid(False)
-plt.savefig('rWalk1.png')
+plt.savefig('LaTeX/rWalk1.png')
 plt.show()
 
 # Call the random walker function for a test of 1000 steps
@@ -119,64 +118,64 @@ plt.title('Random walk representation ($1000$ steps)',fontsize=20)
 plt.xlabel('distance $x$ ',fontsize=15)
 plt.ylabel('distance $y$',fontsize=15)
 plt.grid(False)
-plt.savefig('rWalk2.png')
+plt.savefig('LaTeX/rWalk2.png')
 plt.show()
 
 # ------------------------------------------------------------------------------
 
-                                # PART A and B
-                                
-# This plot will be of <xn> , <xn^2>,<distance^2> and additionally <distance> up to n=100, averaged over 10^4 walks.
+# This plot will be of <xn> , <xn^2>,<distance^2> and additionally <distance> up
+# to n=100, averaged over 10^4 walks.
 
-# We run a for-loop that calls the random walker 10^4 number of times (can be varied: runs)
-# Then save the x-coordinate for every run in a matrix, where every run is a column
-# And save the x^2-coordinate for every run in a  separate matrix
-# In a separate for loop we then average over every row, and get <x> and <x^2>
+# We run a for-loop that calls the random walker 10^4 number of times
+# (can be varied: runs). Then save the x-coordinate for every run in a matrix,
+# where every run is a column. Save the x^2-coordinate for every run in a
+# separate matrix. In a separate for loop we then average over every row, and
+# get <x> and <x^2>.
 
-#Specify parameters
+# Specify parameters
 runs=10000
 nSteps=100
 runX=numpy.zeros((nSteps,runs)) #empty matrix for mean values for x
 runX2=numpy.zeros((nSteps,runs)) #empty matrix for mean squared values
-dist=numpy.zeros((nSteps,runs)) #empty matrix for distance 
+dist=numpy.zeros((nSteps,runs)) #empty matrix for distance
 dist2=numpy.zeros((nSteps,runs)) #empty matrix for distance^2
 
-#for loop from where random walker is called and matrix for (runs) is saved
+# For loop from where random walker is called and matrix for (runs) is saved
 for j in range(0,runs):
-	walk, displacement=randomWalk2D(0,0,nSteps) #get a X,Y matrix with positions
-	xValues=walk[:,0].flatten() #get x values for the random walks
-	xValuesSquared=numpy.square(xValues) #get x^2 for the walk
-	runX[:,j]=xValues #save x coordinates as one of the columns 
-	runX2[:,j]=xValuesSquared #save x^2 coordinates as one of the columns
+	walk, displacement=randomWalk2D(0,0,nSteps)  # get a X,Y matrix with positions
+	xValues=walk[:,0].flatten()                  # get x values for the random walks
+	xValuesSquared=numpy.square(xValues)         # get x^2 for the walk
+	runX[:,j]=xValues                            # save x coordinates as one of the columns
+	runX2[:,j]=xValuesSquared                    # save x^2 coordinates as one of the columns
 	dist[:,j]=displacement
 	dist2[:,j]=numpy.square(displacement)
 
-	
-
-#initialize the empty matrix for means
-meanAll=numpy.zeros(nSteps) #create an array for mean values
-meanAllSq=numpy.zeros(nSteps) #create an array for mean of x^2 values
-distAll=numpy.zeros(nSteps) #create an array for mean displacement
-distAll2=numpy.zeros(nSteps) #create an array for mean displacement^2
 
 
-#find averages
-for row in range (0,nSteps): #for every row in the matrices runX and runX2
+# Initialize the empty matrix for means
+meanAll=numpy.zeros(nSteps)   # create an array for mean values
+meanAllSq=numpy.zeros(nSteps) # create an array for mean of x^2 values
+distAll=numpy.zeros(nSteps)   # create an array for mean displacement
+distAll2=numpy.zeros(nSteps)  # create an array for mean displacement^2
+
+
+# Find averages
+for row in range (0,nSteps): # for every row in the matrices runX and runX2
 		meanAll[row]=numpy.mean(runX[row,:])
 		meanAllSq[row]=numpy.mean(runX2[row,:])
 		distAll[row]=numpy.mean(dist[row,:])
 		distAll2[row]=numpy.mean(dist2[row,:])
 
-	
-n=range(4,nSteps) #range for n steps values for scatterplot
 
-######## Find fit for the distance^2
+n=range(4,nSteps) # range for n steps values for scatterplot
+
+# Find fit for the distance^2
 fit=numpy.polyfit(n, distAll2[4:],1)
 fitFunc=numpy.poly1d(fit)
 print("Parameters for the fit: slope = ",fit[0],"shift: ",fit[1])
 
-		
-		
+
+
 #--------------- Plot <x>
 fig1=plt.subplot()
 plt.plot(meanAll[4:], color='dodgerblue', lw=3)
@@ -184,9 +183,9 @@ plt.title("Mean $<x>$-position for 10 000 runs", fontsize=20)
 plt.xlabel("Steps, $n$",fontsize=15)
 plt.ylabel("Position on $x$-axis",fontsize=15)
 plt.grid(True)
-fig1.spines["top"].set_visible(False)  
-fig1.spines["right"].set_visible(False)  
-plt.savefig('meanX.png')
+fig1.spines["top"].set_visible(False)
+fig1.spines["right"].set_visible(False)
+plt.savefig('LaTeX/meanX.png')
 plt.show()
 
 
@@ -198,9 +197,9 @@ plt.title("Mean $<x^2>$ position for 10 000 runs",fontsize=20)
 plt.xlabel("Steps, $n$",fontsize=15)
 plt.ylabel("Value of $<x^2>$",fontsize=15)
 plt.grid(True)
-fig2.spines["top"].set_visible(False)  
-fig2.spines["right"].set_visible(False)  
-plt.savefig('meanX2.png')
+fig2.spines["top"].set_visible(False)
+fig2.spines["right"].set_visible(False)
+plt.savefig('LaTeX/meanX2.png')
 plt.show()
 
 ##--------------- Plot <d^2>
@@ -211,16 +210,18 @@ plt.title("Mean $d^2$ from origin for 10 000 runs",fontsize=20)
 plt.xlabel("Steps, $n$",fontsize=15)
 plt.ylabel("Mean distance squared ($<d^2>$) from origin",fontsize=15)
 plt.grid(True)
-fig3.spines["top"].set_visible(False)  
-fig3.spines["right"].set_visible(False)  
-plt.savefig('meanD2.png')
+fig3.spines["top"].set_visible(False)
+fig3.spines["right"].set_visible(False)
+plt.savefig('LaTeX/meanD2.png')
 plt.show()
 
-##########################################################################################
-################################### ADDITIONAL CALCULATIONS####################################
-##########################################################################################
-##########################################################################################
+# ------------------------------------------------------------------------------
 
+################################################################################
+### The following plots are additional.
+################################################################################
+
+# ------------------------------------------------------------------------------
 
 #------- Find fit for the mean distance travelled:
 # Find log distance and log steps
@@ -243,9 +244,9 @@ plt.title("Log-log plot, mean distance from origin, 10 000 runs",fontsize=20)
 plt.xlabel("Log step, $log(n)$",fontsize=15)
 plt.ylabel("Log mean distance from origin, $log(<d>)$",fontsize=15)
 plt.grid(True)
-fig4.spines["top"].set_visible(False)  
-fig4.spines["right"].set_visible(False)  
-plt.savefig('meanDLog.png')
+fig4.spines["top"].set_visible(False)
+fig4.spines["right"].set_visible(False)
+plt.savefig('LaTeX/meanDLog.png')
 plt.show()
 
 
@@ -257,12 +258,10 @@ plt.title("Mean distance from origin for 10 000 runs",fontsize=20)
 plt.xlabel("Steps, $n$",fontsize=15)
 plt.ylabel("Mean distance from origin, $<d>$",fontsize=15)
 plt.grid(True)
-fig5.spines["top"].set_visible(False)  
-fig5.spines["right"].set_visible(False)  
-plt.savefig('meanD.png')
+fig5.spines["top"].set_visible(False)
+fig5.spines["right"].set_visible(False)
+plt.savefig('LaTeX/meanD.png')
 plt.show()
-
-#---------------------------Additional plot
 
 #--------------- Plot x for 10^4 random walks
 plt.plot(runX, lw=2)
@@ -270,5 +269,9 @@ plt.title("Position x coordinate for 10 000 runs",fontsize=20)
 plt.xlabel("Step, n",fontsize=15)
 plt.ylabel("Position on x-axis",fontsize=15)
 plt.grid(True)
-plt.savefig('manyXpos.png')
+plt.savefig('LaTeX/manyXpos.png')
 plt.show()
+
+# ------------------------------------------------------------------------------
+
+# COMPLETE
