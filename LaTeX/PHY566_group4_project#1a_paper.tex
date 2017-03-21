@@ -1,4 +1,4 @@
-%%% Group 4: Tahoe, Ksenia Sokolova, Xinmeng
+%%% Group 4: Tahoe, Ksenia Sokolova, Xinmeng Tong
 %%% Computational Physics
 %%% Spring, 2017
 
@@ -97,29 +97,34 @@ Integrating the above equation by parts yields
   \label{eq:variancesolved}
   \langle x^2 \rangle = \sigma^2
 \end{equation}
-Typically, we call this equation the variance. % I used mathematica for the last step because actually integrating by parts was pretty difficult and too many steps to type out. Do you think this is okay?
+Typically, we call this equation the variance. % I used mathematica for the last step because actually integrating by parts was pretty difficult
+
+\subsection{Cluster Growth with a DLA Model}
+\label{sec:clusterDLAmodel}
 
 \section{Computations}
 \label{sec:computations}
 
 \subsection{Random Walks in 2D}
 \label{sec:computationsRandomWalk}
-To code for the basic 2D walk, we assume that the probability to step in either direction left, right, up or down is the same. Then, for every step, we generate a random number. This is equivalent to drawing from Uniform (0,1). We assign every move to one of the segments of .25. If the random numbers falls within that value, we move in the assigned direction. The evidence for a successfully coded $2D$ walker program is given in Figure~\ref{fig:20steps} and \ref{fig:1000steps}.
+To code the basic 2D walk, we assume that the probability to step in either direction left, right, up or down is the same. Then, for every step, we generate a random number. This is equivalent to drawing from Uniform (0,1). We assign every move to one of the segments of .25. If the random numbers falls within that value, we move in the assigned direction. The evidence for a successfully coded $2D$ walker program is given in Figure~\ref{fig:20steps} and \ref{fig:1000steps}.
 
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{run20.png}
-  \caption{20-step random walk}\label{fig:20steps}
+  \includegraphics[width=\linewidth]{rWalk1.png}
+  \caption{blah blah blah}\label{fig:20steps}
 \endminipage\hfill
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{run1000.png}
-  \caption{1000-step random walk}\label{fig:1000steps}
+  \includegraphics[width=\linewidth]{rWalk2.png}
+  \caption{blah blah blah}\label{fig:1000steps}
 \endminipage\hfill
 \end{figure}
 
 \subsection{Diffusion of a Box Density Distribution}
 \label{sec:diffusion-boxdensity}
-Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Five different snapshots in time were then fit against Equation~\ref{eq:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution. This $1D$ diffusion solver was performed for an initial box shaped density, shown in Figure~\ref{fig:probdensityinit}.
+Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Diffusion Equation over a period of time. Six different snapshots in time were then fit against Equation~\ref{eq:gaussiandistribution} to show a box shaped density will eventually diffuse into a Gaussian normal distribution.
+
+It should be noted that it was important to place this box density far from the edges of the grid. Otherwise, the grid started to act as a makeshift boundary condition that, over time, made the distribution look less Gaussian. The initial distribution of our $1D$ diffusion solver is shown in Figure~\ref{fig:probdensityinit}.
 \begin{figure}[!htb]
 \centerline{\minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{probdensityinit.png}
@@ -127,29 +132,36 @@ Using the arguments in Section~\ref{sec:diffusionequation}, we solve the $1D$ Di
 \endminipage}
 \end{figure}
 
-In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity5}, we took snapshots of the $1D$ density equation and fit a Gaussian to the solution. A value of $\sigma$ was then extracted and compared to the analytical solution, $\sigma=\sqrt{2Dt}$. As can be seen, the fit worked well during early time snapshots but got progressively worse. 
+In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity6}, we took snapshots of the $1D$ density equation and fit a Gaussian to the solution. A value of $\sigma$ was then extracted and compared to the analytical solution, $\sigma=\sqrt{2Dt}$. As can be seen, the fit worked exceptionally well for all time snapshots. The edge effects start to ruin our $\sigma$ fit in Figure~\ref{fig:probdensity6}.
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{probdensityt1.png}
-  \caption{$1D$ density after time evolution}\label{fig:probdensity1}
+  \includegraphics[width=\linewidth]{probdensityt10.png}
+  \caption{}\label{fig:probdensity1}
 \endminipage\hfill
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{probdensityt2.png}
-  \caption{$1D$ density after time evolution}\label{fig:probdensity2}
+  \includegraphics[width=\linewidth]{probdensityt55.png}
+  \caption{}\label{fig:probdensity2}
 \endminipage\hfill \\
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{probdensityt3.png}
-  \caption{$1D$ density after time evolution}\label{fig:probdensity3}
+  \includegraphics[width=\linewidth]{probdensityt110.png}
+  \caption{}\label{fig:probdensity3}
 \endminipage\hfill
 \minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{probdensityt4.png}
-  \caption{$1D$ density after time evolution}\label{fig:probdensity4}
+  \includegraphics[width=\linewidth]{probdensityt510.png}
+  \caption{}\label{fig:probdensity4}
 \endminipage\hfill
-\centerline{\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{probdensityt5.png}
-  \caption{$1D$ density after time evolution}\label{fig:probdensity5}
-\endminipage}
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt1600.png}
+  \caption{}\label{fig:probdensity5}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{probdensityt2000.png}
+  \caption{}\label{fig:probdensity6}
+\endminipage\hfill
 \end{figure}
+
+\subsection{Growing Clusters and Extracting Fractal Dimensions}
+\label{sec:clustersandfractals}
 
 \end{document} % This ends our document
 

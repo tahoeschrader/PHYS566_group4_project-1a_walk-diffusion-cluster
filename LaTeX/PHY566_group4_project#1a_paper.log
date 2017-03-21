@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.8.3)  19 MAR 2017 21:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.8.3)  21 MAR 2017 17:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -585,83 +585,89 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {c:/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<run20.png, id=19, 578.16pt x 433.62pt>
-File: run20.png Graphic file (type png)
- <use run20.png>
-Package pdftex.def Info: run20.png used on input line 111.
+<rWalk1.png, id=19, 578.16pt x 433.62pt>
+File: rWalk1.png Graphic file (type png)
+ <use rWalk1.png>
+Package pdftex.def Info: rWalk1.png used on input line 114.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<run1000.png, id=21, 578.16pt x 433.62pt>
-File: run1000.png Graphic file (type png)
- <use run1000.png>
-Package pdftex.def Info: run1000.png used on input line 115.
+<rWalk2.png, id=21, 578.16pt x 433.62pt>
+File: rWalk2.png Graphic file (type png)
+ <use rWalk2.png>
+Package pdftex.def Info: rWalk2.png used on input line 118.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
 <probdensityinit.png, id=22, 578.16pt x 433.62pt>
 File: probdensityinit.png Graphic file (type png)
  <use probdensityinit.png>
-Package pdftex.def Info: probdensityinit.png used on input line 127.
+Package pdftex.def Info: probdensityinit.png used on input line 132.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<probdensityt1.png, id=23, 578.16pt x 433.62pt>
-File: probdensityt1.png Graphic file (type png)
- <use probdensityt1.png>
-Package pdftex.def Info: probdensityt1.png used on input line 133.
+<probdensityt10.png, id=23, 578.16pt x 433.62pt>
+File: probdensityt10.png Graphic file (type png)
+ <use probdensityt10.png>
+Package pdftex.def Info: probdensityt10.png used on input line 138.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<probdensityt2.png, id=24, 578.16pt x 433.62pt>
-File: probdensityt2.png Graphic file (type png)
- <use probdensityt2.png>
-Package pdftex.def Info: probdensityt2.png used on input line 137.
+<probdensityt55.png, id=24, 578.16pt x 433.62pt>
+File: probdensityt55.png Graphic file (type png)
+ <use probdensityt55.png>
+Package pdftex.def Info: probdensityt55.png used on input line 142.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<probdensityt3.png, id=25, 578.16pt x 433.62pt>
-File: probdensityt3.png Graphic file (type png)
- <use probdensityt3.png>
-Package pdftex.def Info: probdensityt3.png used on input line 141.
+<probdensityt110.png, id=25, 578.16pt x 433.62pt>
+File: probdensityt110.png Graphic file (type png)
+ <use probdensityt110.png>
+Package pdftex.def Info: probdensityt110.png used on input line 146.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<probdensityt4.png, id=26, 578.16pt x 433.62pt>
-File: probdensityt4.png Graphic file (type png)
- <use probdensityt4.png>
-Package pdftex.def Info: probdensityt4.png used on input line 145.
+<probdensityt510.png, id=26, 578.16pt x 433.62pt>
+File: probdensityt510.png Graphic file (type png)
+ <use probdensityt510.png>
+Package pdftex.def Info: probdensityt510.png used on input line 150.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-<probdensityt5.png, id=27, 578.16pt x 433.62pt>
-File: probdensityt5.png Graphic file (type png)
- <use probdensityt5.png>
-Package pdftex.def Info: probdensityt5.png used on input line 151.
+<probdensityt1600.png, id=27, 578.16pt x 433.62pt>
+File: probdensityt1600.png Graphic file (type png)
+ <use probdensityt1600.png>
+Package pdftex.def Info: probdensityt1600.png used on input line 154.
 (pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
 
-[2 <./run20.png> <./run1000.png>] [3 <./probdensityinit.png>] [4 <./probdensity
-t1.png> <./probdensityt2.png> <./probdensityt3.png> <./probdensityt4.png> <./pr
-obdensityt5.png>] (./PHY566_group4_project#1a_paper.aux) ) 
+<probdensityt2000.png, id=28, 578.16pt x 433.62pt>
+File: probdensityt2000.png Graphic file (type png)
+ <use probdensityt2000.png>
+Package pdftex.def Info: probdensityt2000.png used on input line 158.
+(pdftex.def)             Requested size: 250.24199pt x 187.67702pt.
+
+[2 <./rWalk1.png> <./rWalk2.png>] [3 <./probdensityinit.png>] [4 <./probdensity
+t10.png> <./probdensityt55.png> <./probdensityt110.png> <./probdensityt510.png>
+ <./probdensityt1600.png> <./probdensityt2000.png>]
+(./PHY566_group4_project#1a_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 5378 strings out of 493093
- 75031 string characters out of 6138557
- 157354 words of memory out of 5000000
- 8759 multiletter control sequences out of 15000+600000
+ 5386 strings out of 493093
+ 75259 string characters out of 6138557
+ 157382 words of memory out of 5000000
+ 8766 multiletter control sequences out of 15000+600000
  13648 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,11n,43p,537b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
-<c:/texlive/2015/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2015/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/
-public/amsfonts/cmextra/cmex9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi6.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9
-.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/t
-exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/201
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2015/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2015/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmssbx10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.
-pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on PHY566_group4_project#1a_paper.pdf (4 pages, 504374 bytes).
+ 44i,11n,43p,533b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
+<c:/texlive/2015/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmbx9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm
+extra/cmex9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+6.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/
+texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2015/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2015/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2015/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10
+.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
+Output written on PHY566_group4_project#1a_paper.pdf (4 pages, 469977 bytes).
 PDF statistics:
- 94 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 92 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
