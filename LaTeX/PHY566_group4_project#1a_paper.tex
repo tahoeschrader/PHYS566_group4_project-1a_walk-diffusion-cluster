@@ -85,8 +85,9 @@ This means that
 
 Now, for the squared distance from the origin, we get
 \begin{equation}
-    <d^2>=<x^2+y^2>=<x^2>+<y^2>=0.5N+0.5N=N
+    <d^2>=<x^2+y^2>=<x^2>+<y^2>=0.5N+0.5N=N=4Dt
 \end{equation}
+if t=N, one step at one time interval.
 
 Where we again used the distributivity of the mean and the fact that $E(x^2)=E(y^2)$ in case $P(x)=P(y)$
 
@@ -173,7 +174,8 @@ We have also shown before that
     <x^2>=\sum_{i=1}^N <x_i^2>=\sum_{i=1}^N 0.5=0.5N
 \end{equation}
 When we simulate $<x^2>$ we indeed get the straight line with the slope equal to $0.5$ (see Figure~\ref{fig:meanX2}). 
-The mean distance squared ($<d^2>$) graph also looks as expected, as a straigh like with slope equal to 1 ((see Figure~\ref{fig:meanD2}).
+The mean distance squared ($<d^2>$) graph also looks as expected, as a straight like with slope equal to 1 ((see Figure~\ref{fig:meanD2}).
+Therefore, if $<d^2>=4Dt$, and steps are once at a time, diffusion constant is approximately $0.25$.
 
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
