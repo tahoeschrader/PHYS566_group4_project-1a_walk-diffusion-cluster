@@ -32,8 +32,9 @@ radius = 100
 
 
 
-#########   Here is the updates from Xinmeng Tong for problem3 part a    #########
+#########   Here is the updates from Xinmeng Tong for problem3    #########
 #!/usr/bin/env python
+
 
 """
     PHY566 
@@ -127,6 +128,8 @@ def rand_point_on_circle():
 def curvefit(r,C,df):							        
 	return C+(np.log10(r))*df					     	# log(m)=C+df*log(r), where df is the fractal dimension and C is the proportionality constant
 
+############################## end of functions ##############################
+
 
 ############################## Loop over 10 times of cluster growth and collect data ##############################
 
@@ -198,3 +201,71 @@ while (while_count <= 10):
 	plt.title("Cluster from DLA Method")
 	savefig("DLA_crystal_final_%i.pdf" %(while_count))
 	plt.show()
+
+	
+	
+	
+	
+	# Part b): Fractal dimensions:
+	mass_radius=np.arange(5,105,5)					# Array for radius at which mass is calculated
+	mass_count=[0]*len(mass_radius)					# Array to count the number of walkers inside the bounds of each radius array element 
+	if while_count==1:
+		mass_count_avg=[0]*len(mass_radius)			# Setting up the counts for the average mass values
+	for i in range(len(mass_radius)):
+    		for j in range(len(cluster_rad)):
+        		if cluster_rad[j]<=mass_radius[i]:
+            			mass_count[i]=mass_count[i]+1
+        	mass_count_avg[i]+=mass_count[i]
+        	
+        # Curve fit:
+        mass=curvefit(mass_radius,1,1.5)				# Calculated values of mass from curve fit equation
+	log_mass=np.log10(mass_count)					# Taking log to the base 10 for mass
+	popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
+	print "Constant,Fractal dimension:",popt
+	log_radius=np.log10(mass_radius)				# Taking log to the base 10 for radius
+    	
+    	mass_analytic=curvefit(mass_radius,popt[0],popt[1])		# Analytically calculated mass from the fit parameters obtained to get the "fit curve"
+									# already in log form as given by curvefit function
+	# Plotting fractal dimension relation:
+	plt.figure()
+	plt.plot(log_radius,log_mass,'r*',label="Raw data")
+	plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
+	plt.legend()
+	plt.xlabel("Radius of cluster")
+	plt.ylabel("Number of walkers within radius, mass")
+	plt.title("Mass distribution of DLA cluster on a log-log plot")
+	plt.savefig("Fractal_dimension_final_%i.pdf" %(while_count))
+	plt.show()
+
+	print "mass_count:"
+	print mass_count
+	print "mass_count_avg"
+	print mass_count_avg		
+        while_count+=1    
+        
+mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
+print "Final mass_count_avg"
+print mass_count_avg
+
+
+
+#Part c (Average to add accuracy)
+
+# Average Curve fit and function definition:
+mass_avg=curvefit(mass_radius,1,1.5)
+log_mass_avg=np.log10(mass_count_avg)
+popt_avg,pcov_avg=curve_fit(curvefit,mass_radius,log_mass_avg)
+print "Constant,Avegrage fractal dimension:",popt_avg
+log_radius=np.log10(mass_radius)
+mass_analytic=curvefit(mass_radius,popt_avg[0],popt_avg[1])
+
+# Plotting fractal dimension relation:
+plt.figure()
+plt.plot(log_radius,log_mass_avg,'r*',label="Raw data")
+plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
+plt.legend()
+plt.xlabel("Radius of cluster")
+plt.ylabel("Number of walkers within radius, mass")
+plt.title("Fractal dimensionality of DLA cluster averaged over 10 clusters log(m)-log(r)")
+plt.savefig("Fractal_dimension_final_avg.pdf")
+plt.show()
