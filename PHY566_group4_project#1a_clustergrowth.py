@@ -17,29 +17,11 @@
 ###                representative sample (3-4) of our clusters.
 ###                     --- INCOMPLETE
 ################################################################################
-
-import numpy as np
-import matplotlib.pyplot as plt
-import random as rng
-from datetime import datetime
-
-################################################################################
-### Start with initializing values
-################################################################################
-
-radius = 100
-
-
-
-
-#########   Here is the updates from Xinmeng Tong for problem3    #########
 #!/usr/bin/env python
-
 
 """
     PHY566 
-	Group Project #1 Version A  Problem3
-	
+	Group Project #1 Version A  Problem3	
 """
 
 from pylab import *
@@ -62,33 +44,33 @@ def radius(r):
 def boundary(state,walker,perimeter,cluster,cluster_rad):
 	for i, item in enumerate(perimeter):		             				# Check through all perimeter sites ranges
 		if walker[0]+105 == item[0] and walker[1]+105 == item[1]:			# Determine whether walker coord == perimeter coord; if so add to cluster
-			cluster[item[0]][item[1]]=1				                     	
-                        perimeter.pop(i)			            			# Remove the old perimeter point which is part of cluster now
+			cluster[item[0]][item[1]]=1				                    
+			perimeter.pop(i)			            			# Remove the old perimeter point which is part of cluster now
 			cluster_rad.append(r_walker)			                		# r_walker is radius of walker as defined above; add it to the cluster_radius list
                         
 			# Create new perimeter sites based on new cluster element
 			new_site1=np.zeros(2)						
-                        new_site1[0]=item[0]+1
-                        new_site1[1]=item[1]
-                        if cluster[item[0]+1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site1)
-                        new_site2=np.zeros(2)
-                        new_site2[0]=item[0]-1
-                        new_site2[1]=item[1]
-                        if cluster[item[0]-1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site2)
-                        new_site3=np.zeros(2)
-                        new_site3[0]=item[0]
-                        new_site3[1]=item[1]+1
-                        if cluster[item[0]][item[1]+1] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site3)
-                        new_site4=np.zeros(2)
-                        new_site4[0]=item[0]
-                        new_site4[1]=item[1]-1
-                        if cluster[item[0]][item[1]-1] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site4)
-                        state='hit'					                 		# show 'hit' if a walker has hit cluster, and thus the main loop needs new walker
-                        break					                			# break when we do not need to cycle through perimeter
+			new_site1[0]=item[0]+1
+			new_site1[1]=item[1]
+			if cluster[item[0]+1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
+					perimeter.append(new_site1)
+			new_site2=np.zeros(2)
+			new_site2[0]=item[0]-1
+			new_site2[1]=item[1]
+			if cluster[item[0]-1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
+					perimeter.append(new_site2)
+			new_site3=np.zeros(2)
+			new_site3[0]=item[0]
+			new_site3[1]=item[1]+1
+			if cluster[item[0]][item[1]+1] != 1:				# not a perimeter site if cluster point already occupies site
+					perimeter.append(new_site3)
+			new_site4=np.zeros(2)
+			new_site4[0]=item[0]
+			new_site4[1]=item[1]-1
+			if cluster[item[0]][item[1]-1] != 1:				# not a perimeter site if cluster point already occupies site
+					perimeter.append(new_site4)
+			state='hit'					                 		# show 'hit' if a walker has hit cluster, and thus the main loop needs new walker
+			break					                			# break when we do not need to cycle through perimeter
 	return state,cluster
 
 # Find random point on a circle with starting radius away from origin point 
@@ -99,36 +81,33 @@ def rand_point_on_circle():
 		x=round(random.uniform(-100,100),0)				            		# Generate random x value
 		y=round(math.sqrt(start_radius**2.0-x**2.0))	     				# Generate corresponding y value forming a circle with start_radius
 		
-		#positive or negative sign with both prob. 1/2
-        	rand=random.uniform(0,1)
+		rand=random.uniform(0,1) #positive or negative sign with both prob. 1/2
 		if rand <= 0.5:
 			y = -1*y
 		elif rand > 0.5:
 			y = 1*y
 	elif t > 0.5:
-                y=round(random.uniform(-100,100),0)                         # Generate random y value
-                x=round(math.sqrt(start_radius**2.0-y**2.0))                # Generate corresponding x value forming a circle with start_radius
+		y=round(random.uniform(-100,100),0)                         # Generate random y value
+		x=round(math.sqrt(start_radius**2.0-y**2.0))                # Generate corresponding x value forming a circle with start_radius
 
-                # positive or negative sign with both prob. 1/2
-                rand=random.uniform(0,1)
-                if rand <= 0.5:
-                        x=-1*x
-                elif rand > 0.5:
-                        x=1*x
+		# positive or negative sign with both prob. 1/2
+		rand=random.uniform(0,1)
+		if rand <= 0.5:
+				x=-1*x
+		elif rand > 0.5:
+				x=1*x
 
 
 	# Define walker using the x y values generated above (walker[0],walker[1])=(x,y)
         walker=np.zeros(2)
         walker[0]=x
         walker[1]=y
-        return walker
+	return walker
 
-# For part b) 
-# Use Curve fit to define a function curvefit=log(m)=C+df*log(r)
+# For part b) Use Curve fit to define a function curvefit=log(m)=C+df*log(r)
+
 def curvefit(r,C,df):							        
 	return C+(np.log10(r))*df					     	# log(m)=C+df*log(r), where df is the fractal dimension and C is the proportionality constant
-
-############################## end of functions ##############################
 
 
 ############################## Loop over 10 times of cluster growth and collect data ##############################
@@ -136,13 +115,8 @@ def curvefit(r,C,df):
 while_count=1
 #while (while_count <= 3):
 while (while_count <= 10):
-	#Initialize cluster 2D array; 0=cluster point; 1=cluster point
-	#cluster=np.zeros((int(2*(start_radius)+3),int(2*(start_radius)+3)))
-	#cluster[102][102]=1
-        cluster=np.zeros((int(2*(start_radius)+10),int(2*(start_radius)+10)))
-        cluster[105][105]=1
-
-	# Initialize first four perimeter points
+	cluster=np.zeros((int(2*(start_radius)+10),int(2*(start_radius)+10)))
+	cluster[105][105]=1
 	perimeter=[]
 	perimeter.append((105,104))
 	perimeter.append((105,106))
@@ -158,39 +132,35 @@ while (while_count <= 10):
 	R=0
 	walker_count=0
 	while R <= 100:
-        	walker_count+=1
-        	print "Walkers generated: ",walker_count
+		walker_count+=1
+		print "Walkers generated: ",walker_count
 		# Generate random walker on circle
-        	walker=rand_point_on_circle()
-        	state=''											# Initialize state of walker ('hit' or not)
-        	# Move walker until it hits cluster or is too far away to be considered a possible hit
+		walker=rand_point_on_circle()
+		state=''
 		while state != 'hit':							
 			# Determine walker's single step direction 
-                	rand_num=random.uniform(0,1)
-                	if rand_num <=0.25:
-                        	walker[0]+=1				#right
-                	elif rand_num > 0.25 and rand_num <= 0.50:	
-                        	walker[0]-=1				#left
-                	elif rand_num >0.50 and rand_num <= 0.75:
-                        	walker[1]+=1				#up
-                	elif rand_num >0.75:
-                        	walker[1]-=1				#down
-        		# Determine radius of walker from origin
-			r_walker=radius(walker)
-			# If walker is close to the largest brance of the cluster then check to the perimeter sites, otherwise continue (saves time)
-			if r_walker <= max(cluster_rad)+5:
+			rand_num=random.uniform(0,1)
+			if rand_num <=0.25:
+				walker[0]+=1				#right
+			elif rand_num > 0.25 and rand_num <= 0.50:	
+				walker[0]-=1				#left
+			elif rand_num >0.50 and rand_num <= 0.75:
+				walker[1]+=1				#up
+			elif rand_num >0.75:
+				walker[1]-=1				#down
+			r_walker=radius(walker) #determine radius of walker from origin
+			if r_walker <= max(cluster_rad)+5: #If walker is close to the largest brance of the cluster then check to the perimeter sites, otherwise continue (saves time)
 				state,cluster=boundary(state,walker,perimeter,cluster,cluster_rad)
 				if state == 'hit':
 					R=radius(walker)
-                        		print "RADIUS=",R
-                        		break
+					print "RADIUS=",R
+					break
 			# Check if walker is out of bounds
 			if r_walker >= out_of_bounds:
-                        	break					# Break loop to generate new walker
+				break					# Break loop to generate new walker
 
 
-	# Plot cluster
-	#np.savetxt("cluster_data.txt",cluster)
+	#Plot cluster np.savetxt("cluster_data.txt",cluster)
 	plt.figure()
 	cmap = matplotlib.colors.ListedColormap(['white','blue'])
 	bounds = [-.5,.5,1.5]
@@ -222,10 +192,10 @@ while (while_count <= 10):
 	log_mass=np.log10(mass_count)					# Taking log to the base 10 for mass
 	popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
 	print "Constant,Fractal dimension:",popt
-	log_radius=np.log10(mass_radius)				# Taking log to the base 10 for radius
-    	
-    	mass_analytic=curvefit(mass_radius,popt[0],popt[1])		# Analytically calculated mass from the fit parameters obtained to get the "fit curve"
-									# already in log form as given by curvefit function
+	log_radius=np.log10(mass_radius)				
+	mass_analytic=curvefit(mass_radius,popt[0],popt[1])
+	#Analytically calculated mass from the fit parameters obtained to get the fit curve already in log form as given by curvefit function
+	while_count+=1 
 	# Plotting fractal dimension relation:
 	plt.figure()
 	plt.plot(log_radius,log_mass,'r*',label="Raw data")
@@ -236,12 +206,12 @@ while (while_count <= 10):
 	plt.title("Mass distribution of DLA cluster on a log-log plot")
 	plt.savefig("Fractal_dimension_final_%i.pdf" %(while_count))
 	plt.show()
-
+	
 	print "mass_count:"
 	print mass_count
 	print "mass_count_avg"
 	print mass_count_avg		
-        while_count+=1    
+       
         
 mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
 print "Final mass_count_avg"
@@ -249,9 +219,7 @@ print mass_count_avg
 
 
 
-#Part c (Average to add accuracy)
-
-# Average Curve fit and function definition:
+#Part c (Average to add accuracy). Average Curve fit and function definition:
 mass_avg=curvefit(mass_radius,1,1.5)
 log_mass_avg=np.log10(mass_count_avg)
 popt_avg,pcov_avg=curve_fit(curvefit,mass_radius,log_mass_avg)
@@ -269,3 +237,4 @@ plt.ylabel("Number of walkers within radius, mass")
 plt.title("Fractal dimensionality of DLA cluster averaged over 10 clusters log(m)-log(r)")
 plt.savefig("Fractal_dimension_final_avg.pdf")
 plt.show()
+
