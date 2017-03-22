@@ -17,224 +17,193 @@
 ###                representative sample (3-4) of our clusters.
 ###                     --- INCOMPLETE
 ################################################################################
-#!/usr/bin/env python
-
-"""
-    PHY566 
-	Group Project #1 Version A  Problem3	
-"""
 
 from pylab import *
 import random
 import math
-import numpy as np
+import numpy
 from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
 
-# Parameters of code
-start_radius=100	# Radius at which random walkers are released
-out_of_bounds=120	# Radius at which random walkers are considered to not reach cluster in sufficient amount of time (thrown out)
+################################################################################
+### Initialize Variables
+################################################################################
 
-################################ Functions ################################# 
+# ------------------------------------------------------------------------------
 
-# Define the 2D radius of a walker from the origin with position (r[0],r[1])
-def radius(r):
-	return math.sqrt((r[0])**2+(r[1])**2)
+#initialize the list that would carry coordinates of the filled entries: (row, column, filled(0=empty, 1=filled))
 
-# Dedine a function to determine whether a walker has hit perimter boundary state of cluster; if so add the walker to the cluster list; then update a new perimeter; if not, escape it
-def boundary(state,walker,perimeter,cluster,cluster_rad):
-	for i, item in enumerate(perimeter):		             				# Check through all perimeter sites ranges
-		if walker[0]+105 == item[0] and walker[1]+105 == item[1]:			# Determine whether walker coord == perimeter coord; if so add to cluster
-			cluster[item[0]][item[1]]=1				                    
-			perimeter.pop(i)			            			# Remove the old perimeter point which is part of cluster now
-			cluster_rad.append(r_walker)			                		# r_walker is radius of walker as defined above; add it to the cluster_radius list
-                        
-			# Create new perimeter sites based on new cluster element
-			new_site1=np.zeros(2)						
-			new_site1[0]=item[0]+1
-			new_site1[1]=item[1]
-			if cluster[item[0]+1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-					perimeter.append(new_site1)
-			new_site2=np.zeros(2)
-			new_site2[0]=item[0]-1
-			new_site2[1]=item[1]
-			if cluster[item[0]-1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-					perimeter.append(new_site2)
-			new_site3=np.zeros(2)
-			new_site3[0]=item[0]
-			new_site3[1]=item[1]+1
-			if cluster[item[0]][item[1]+1] != 1:				# not a perimeter site if cluster point already occupies site
-					perimeter.append(new_site3)
-			new_site4=np.zeros(2)
-			new_site4[0]=item[0]
-			new_site4[1]=item[1]-1
-			if cluster[item[0]][item[1]-1] != 1:				# not a perimeter site if cluster point already occupies site
-					perimeter.append(new_site4)
-			state='hit'					                 		# show 'hit' if a walker has hit cluster, and thus the main loop needs new walker
-			break					                			# break when we do not need to cycle through perimeter
-	return state,cluster
+matrixList=numpy.array([0,0,0])     # create a first entry of the matrix
+radius = 100
+seedX = 100                         # x coordinate of a seed particle
+seedY = 100                         # y coordinate of a seed
+squareSize = 201
 
-# Find random point on a circle with starting radius away from origin point 
-def rand_point_on_circle():
-	# pick x first or y fisrt at the same prob. 1/2, where we use t=random number(0,1) to decide which one is generated first
-	t=random.uniform(0,1)
-	if t <=0.5:
-		x=round(random.uniform(-100,100),0)				            		# Generate random x value
-		y=round(math.sqrt(start_radius**2.0-x**2.0))	     				# Generate corresponding y value forming a circle with start_radius
-		
-		rand=random.uniform(0,1) #positive or negative sign with both prob. 1/2
-		if rand <= 0.5:
-			y = -1*y
-		elif rand > 0.5:
-			y = 1*y
-	elif t > 0.5:
-		y=round(random.uniform(-100,100),0)                         # Generate random y value
-		x=round(math.sqrt(start_radius**2.0-y**2.0))                # Generate corresponding x value forming a circle with start_radius
+for row in range (0,201):
+	for col in range (0,201):
+		if row==seedX and col==seedY:
+			matrixList=numpy.vstack((matrixList, [row,col,1]))
+		if numpy.sqrt((seedX-row)**2+(seedY-col)**2)>radius:
+			matrixList=numpy.vstack((matrixList, [row,col,2]))
+		else:
+			matrixList=numpy.vstack((matrixList, [row,col,0]))
 
-		# positive or negative sign with both prob. 1/2
-		rand=random.uniform(0,1)
-		if rand <= 0.5:
-				x=-1*x
-		elif rand > 0.5:
-				x=1*x
+# Remove the first entry, was created to enable vstack option
+matrixList = numpy.delete(matrixList, 0, 0)
 
+print("Matrix List Initialized")
 
-	# Define walker using the x y values generated above (walker[0],walker[1])=(x,y)
-        walker=np.zeros(2)
-        walker[0]=x
-        walker[1]=y
-	return walker
+# ------------------------------------------------------------------------------
 
-# For part b) Use Curve fit to define a function curvefit=log(m)=C+df*log(r)
+################################################################################
+### Define functions
+################################################################################
 
-def curvefit(r,C,df):							        
-	return C+(np.log10(r))*df					     	# log(m)=C+df*log(r), where df is the fractal dimension and C is the proportionality constant
+# ------------------------------------------------------------------------------
 
+# This functions checks the perimeter and then embarks on a random walk
+def checkAround(location):
+	foundFriend = False
+	nearEdge = False
 
-############################## Loop over 10 times of cluster growth and collect data ##############################
+    # Check if a walker is near the edge
+	if (location[1] + 1) > squareSize - 1 or (location[1] - 1) < 1 or (location[0] + 1) > squareSize - 1 or (location[0] - 1) < 1:
+		nearEdge = True
 
-while_count=1
-#while (while_count <= 3):
-while (while_count <= 10):
-	cluster=np.zeros((int(2*(start_radius)+10),int(2*(start_radius)+10)))
-	cluster[105][105]=1
-	perimeter=[]
-	perimeter.append((105,104))
-	perimeter.append((105,106))
-	perimeter.append((104,105))
-	perimeter.append((106,105))
+    # If not near the edge, check if the walker is near a neighbor
+	if not nearEdge:
+		neighborDown = matrixList[(location[1]+1)*squareSize+location[0]+1]
+		if neighborDown[2] == 1:
+			foundFriend = True
+		if neighborDown[2] == 2:
+			nearEdge = True
 
-	# Initialize cluster radius variable; tells the radius of a cluster point from origin as it is added
-	cluster_rad=[]
-	cluster_rad.append(0)
+		neighborUp=matrixList[(location[1]-1)*squareSize+location[0]+1]
+		if neighborUp[2]==1:
+			foundFriend=True
+		if neighborUp[2]==2:
+			nearEdge=True
 
+		neighborRight=matrixList[location[1]*squareSize+location[0]+1+1]
+		if neighborRight[2]==1:
+			foundFriend=True
+		if neighborRight[2]==2:
+			nearEdge=True
 
-	# Loop over random walkers until the cluster radius, R, is 100, which is radius of the starting circle 
-	R=0
-	walker_count=0
-	while R <= 100:
-		walker_count+=1
-		print "Walkers generated: ",walker_count
-		# Generate random walker on circle
-		walker=rand_point_on_circle()
-		state=''
-		while state != 'hit':							
-			# Determine walker's single step direction 
-			rand_num=random.uniform(0,1)
-			if rand_num <=0.25:
-				walker[0]+=1				#right
-			elif rand_num > 0.25 and rand_num <= 0.50:	
-				walker[0]-=1				#left
-			elif rand_num >0.50 and rand_num <= 0.75:
-				walker[1]+=1				#up
-			elif rand_num >0.75:
-				walker[1]-=1				#down
-			r_walker=radius(walker) #determine radius of walker from origin
-			if r_walker <= max(cluster_rad)+5: #If walker is close to the largest brance of the cluster then check to the perimeter sites, otherwise continue (saves time)
-				state,cluster=boundary(state,walker,perimeter,cluster,cluster_rad)
-				if state == 'hit':
-					R=radius(walker)
-					print "RADIUS=",R
-					break
-			# Check if walker is out of bounds
-			if r_walker >= out_of_bounds:
-				break					# Break loop to generate new walker
+		neighborLeft=matrixList[location[1]*squareSize+location[0]]
+		if neighborLeft[2]==1:
+			foundFriend=True
+		if neighborLeft[2]==2:
+			nearEdge=True
 
+    # After checking locations, if locations are good, start the random walk
+	if not foundFriend and not nearEdge:
+		decide = random.random()
+		if decide<0.25:
+			location = [location[0] - 1,location[1]]
+		elif decide<0.5:
+			location = [location[0] + 1,location[1]]
+		elif decide<0.75:
+			location = [location[0],location[1] + 1]
+		else:
+			location = [location[0],location[1] - 1]
 
-	#Plot cluster np.savetxt("cluster_data.txt",cluster)
-	plt.figure()
-	cmap = matplotlib.colors.ListedColormap(['white','blue'])
-	bounds = [-.5,.5,1.5]
-	norm = matplotlib.colors.BoundaryNorm(bounds,cmap.N)
-	img = plt.imshow(cluster,interpolation='nearest',cmap=cmap,norm=norm)
-	plt.xlabel("Horizontal Position [Arbitrary units]")
-	plt.ylabel("Vertical Position [Arbitrary units]")
-	plt.title("Cluster from DLA Method")
-	savefig("DLA_crystal_final_%i.pdf" %(while_count))
-	plt.show()
+	return (location, foundFriend, nearEdge)
 
-	
-	
-	
-	
-	# Part b): Fractal dimensions:
-	mass_radius=np.arange(5,105,5)					# Array for radius at which mass is calculated
-	mass_count=[0]*len(mass_radius)					# Array to count the number of walkers inside the bounds of each radius array element 
-	if while_count==1:
-		mass_count_avg=[0]*len(mass_radius)			# Setting up the counts for the average mass values
-	for i in range(len(mass_radius)):
-    		for j in range(len(cluster_rad)):
-        		if cluster_rad[j]<=mass_radius[i]:
-            			mass_count[i]=mass_count[i]+1
-        	mass_count_avg[i]+=mass_count[i]
-        	
-        # Curve fit:
-        mass=curvefit(mass_radius,1,1.5)				# Calculated values of mass from curve fit equation
-	log_mass=np.log10(mass_count)					# Taking log to the base 10 for mass
-	popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
-	print "Constant,Fractal dimension:",popt
-	log_radius=np.log10(mass_radius)				
-	mass_analytic=curvefit(mass_radius,popt[0],popt[1])
-	#Analytically calculated mass from the fit parameters obtained to get the fit curve already in log form as given by curvefit function
-	while_count+=1 
-	# Plotting fractal dimension relation:
-	plt.figure()
-	plt.plot(log_radius,log_mass,'r*',label="Raw data")
-	plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
-	plt.legend()
-	plt.xlabel("Radius of cluster")
-	plt.ylabel("Number of walkers within radius, mass")
-	plt.title("Mass distribution of DLA cluster on a log-log plot")
-	plt.savefig("Fractal_dimension_final_%i.pdf" %(while_count))
-	plt.show()
-	
-	print "mass_count:"
-	print mass_count
-	print "mass_count_avg"
-	print mass_count_avg		
-       
-        
-mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
-print "Final mass_count_avg"
-print mass_count_avg
+# ------------------------------------------------------------------------------
 
+def indexM(x,y):
+	return y * squareSize + x + 1
 
+# ------------------------------------------------------------------------------
 
-#Part c (Average to add accuracy). Average Curve fit and function definition:
-mass_avg=curvefit(mass_radius,1,1.5)
-log_mass_avg=np.log10(mass_count_avg)
-popt_avg,pcov_avg=curve_fit(curvefit,mass_radius,log_mass_avg)
-print "Constant,Avegrage fractal dimension:",popt_avg
-log_radius=np.log10(mass_radius)
-mass_analytic=curvefit(mass_radius,popt_avg[0],popt_avg[1])
+################################################################################
+### Run the random walker to create a cluster
+################################################################################
 
-# Plotting fractal dimension relation:
-plt.figure()
-plt.plot(log_radius,log_mass_avg,'r*',label="Raw data")
-plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
-plt.legend()
-plt.xlabel("Radius of cluster")
-plt.ylabel("Number of walkers within radius, mass")
-plt.title("Fractal dimensionality of DLA cluster averaged over 10 clusters log(m)-log(r)")
-plt.savefig("Fractal_dimension_final_avg.pdf")
+# ------------------------------------------------------------------------------
+
+# Initialize the random walker counter
+randomWalkersCount = 0
+
+# Set the cluster to NOT be completed in size
+completeCluster = False
+
+# Start running random walkers
+while not completeCluster:
+	# Release a walker
+	randomWalkersCount += 1
+	random.seed()
+
+	# Generate a (Xstart, Ystart) for walker, need within radius
+	withinCircle = False # identity to check if within circle
+	while not withinCircle:
+		xStart = randint(0,squareSize)
+		yStart = randint(0,squareSize)
+		if numpy.sqrt((seedX-xStart)**2+(seedY-yStart)**2) < radius:
+			withinCircle = True # have a value
+
+	# Initialize variables, like step counter, location array, Friend tag
+	steps = 0
+	location = [xStart, yStart] # column and row on matrix
+	foundFriend = False
+
+    # Set an individual walker out, if its puttering about at the edge near
+    # 2000 steps, give up on it!
+	while not foundFriend and steps < 2000:
+        # Add to the step counter
+		steps += 1
+
+        # Run the checking/walking function
+		locationNew,foundFriend, nearEdge = checkAround(location)
+
+        # Save the location where the walker is located
+		indexOnMatrix = location[1]*squareSize+location[0]+1
+
+        # Add to the cluster if near a friend
+		if foundFriend:
+            # current location, replace with 1 and stop
+			matrixList[indexOnMatrix] = [location[0],location[1],1]
+
+        # If near an edge and its been a long time... give up this while loop,
+        # which means use a break function (I think)
+		if nearEdge and steps == 1999:
+			break
+
+        # Otherwise, save the location
+		else:
+			location = locationNew
+
+    # Once it finds a friend a leaves the previous loop, we must check if it
+    # is also touching a wall
+	if foundFriend and nearEdge :
+		matrixList[indexOnMatrix] = [location[0],location[1],1] # current location, replace with 1 and stop
+		print(randomWalkersCount)
+		completeCluster = True
+
+print(matrixList)
+
+# ------------------------------------------------------------------------------
+
+################################################################################
+### Create Plots
+################################################################################
+
+# ------------------------------------------------------------------------------
+
+matrix = numpy.zeros((201,201))
+for row in range (0,201):
+	for col in range (0,201):
+		value = matrixList[indexM(col,row)]
+		matrix[row,col] = value[2]
+print(matrix)
+
+fig = plt.subplot()
+plt.title("DLA Cluster", fontsize=20)
+plt.imshow(matrix, interpolation='nearest')
+plt.xlabel("direction, $x$", fontsize=15)
+plt.ylabel("direction, $y$", fontsize=15)
+plt.savefig('LaTeX/oneDLAcluster.png')
 plt.show()
 
+# ------------------------------------------------------------------------------
