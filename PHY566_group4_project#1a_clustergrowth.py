@@ -211,7 +211,8 @@ while (while_count <= 10):
 	print mass_count
 	print "mass_count_avg"
 	print mass_count_avg		
-
+       
+        
 mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
 print "Final mass_count_avg"
 print mass_count_avg
