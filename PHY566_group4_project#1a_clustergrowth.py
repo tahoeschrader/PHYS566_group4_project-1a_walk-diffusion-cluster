@@ -49,35 +49,46 @@ def radius(r):
 
 # Checks if walker hits perimeter and update the perimeter
 def boundary(state,walker,perimeter,cluster,cluster_rad):
-	for i, item in enumerate(perimeter):		             				# Check through all perimeter sites ranges
-		if walker[0]+105 == item[0] and walker[1]+105 == item[1]:			# Determine whether walker coord == perimeter coord; if so add to cluster
-			cluster[item[0]][item[1]]=1
-                        perimeter.pop(i)			            			# Remove the old perimeter point which is part of cluster now
-			cluster_rad.append(r_walker)			                		# r_walker is radius of walker as defined above; add it to the cluster_radius list
+    # Check through all perimeter sites ranges
+    for i, item in enumerate(perimeter):
+        # Determine whether walker coord == perimeter coord; if so add to cluster
+        if walker[0]+105 == item[0] and walker[1]+105 == item[1]:
+            cluster[item[0]][item[1]] = 1
 
-			# Create new perimeter sites based on new cluster element
-			new_site1=np.zeros(2)
-                        new_site1[0]=item[0]+1
-                        new_site1[1]=item[1]
-                        if cluster[item[0]+1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site1)
-                        new_site2=np.zeros(2)
-                        new_site2[0]=item[0]-1
-                        new_site2[1]=item[1]
-                        if cluster[item[0]-1][item[1]] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site2)
-                        new_site3=np.zeros(2)
-                        new_site3[0]=item[0]
-                        new_site3[1]=item[1]+1
-                        if cluster[item[0]][item[1]+1] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site3)
-                        new_site4=np.zeros(2)
-                        new_site4[0]=item[0]
-                        new_site4[1]=item[1]-1
-                        if cluster[item[0]][item[1]-1] != 1:				# not a perimeter site if cluster point already occupies site
-                                perimeter.append(new_site4)
-                        state='hit'					                 		# show 'hit' if a walker has hit cluster, and thus the main loop needs new walker
-                        break					                			# break when we do not need to cycle through perimeter
+            # Remove the old perimeter point which is part of cluster now
+            perimeter.pop(i)
+
+            # r_walker is radius of walker as defined above; add it to the cluster_radius list
+            cluster_rad.append(r_walker)
+
+            # Create new perimeter sites based on new cluster element
+            new_site1 = np.zeros(2)
+            new_site1[0] = item[0]+1
+            new_site1[1] = item[1]
+            if cluster[item[0]+1][item[1]] != 1: # not a perimeter site if cluster point already occupies site
+                perimeter.append(new_site1)
+            new_site2 = np.zeros(2)
+            new_site2[0] = item[0]-1
+            new_site2[1] = item[1]
+            if cluster[item[0]-1][item[1]] != 1: # not a perimeter site if cluster point already occupies site
+                perimeter.append(new_site2)
+            new_site3 = np.zeros(2)
+            new_site3[0] = item[0]
+            new_site3[1] = item[1]+1
+            if cluster[item[0]][item[1]+1] != 1: # not a perimeter site if cluster point already occupies site
+                perimeter.append(new_site3)
+            new_site4 = np.zeros(2)
+            new_site4[0] = item[0]
+            new_site4[1] = item[1]-1
+            if cluster[item[0]][item[1]-1] != 1: # not a perimeter site if cluster point already occupies site
+                perimeter.append(new_site4)
+
+            # show 'hit' if a walker has hit cluster, and thus the main loop needs new walker
+            state='hit'
+
+            # break when we do not need to cycle through perimeter
+            break
+                      			
 	return state,cluster
 
 # ------------------------------------------------------------------------------
