@@ -8,7 +8,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-\documentclass[10pt]{article}
+\documentclass[12pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts,amssymb}
@@ -46,8 +46,51 @@ letterpaper]{geometry}%
 \label{sec:theory}
 
 \subsection{Random Walks in 2D}
-Mean and squared displacement
-Distance from origin
+Consider a 2D random walk. The displacement in the x direction is equal to the sum of displacement in x direction at every step. 
+
+\begin{equation}
+    X=\sum_{i=1}^{n} x_i
+\end{equation}
+The expectation value of displacement in the x direction can be found using the distributive property of the expectation for identically distributed random variables:
+\begin{equation}
+    <x>=\sum_{i=1}^{n} <x_i>=\sum_{i=1}^{n} (0.25)(-1)+(0.25)(1)=0
+\end{equation}
+This happens because there is equal probability to step right or left. The probability if 0.25 because overall we are in 2D, and so there is 50\% chance we will move in the vertical direction.
+
+For the mean x-squared displacement we get
+\begin{equation}
+    <x^2>=<(x_1+x_2+x_3...)(x_1+x_2+x_3...)>
+\end{equation}
+
+\begin{equation}
+    <x^2>=<x_1^2>+<x_2>^2+<x_3^2>+<x_1x_2>+<x_1x_3>+<x_2x_3>...
+\end{equation}
+
+We see that the result consist of combinations of $<x_i^2>$ and $<x_ix_j>$. Note that 
+\begin{equation}
+    E(x_ix_j)=1*0.25^2+1*0.25^2+(-1)*0.25^2+(-1)*0.25^2=0
+\end{equation}
+
+Therefore, all non-square terms vanish.
+
+For the square terms, on the contrary, we always get $x_i=\pm 1$ and therefore $x_i^2=1$ and
+\begin{equation}
+    E(x_i^2)=1*0.25+1*0.25=0.5
+\end{equation}
+
+This means that 
+\begin{equation}
+    <x^2>=\sum_{i=1}^N <x_i^2>=\sum_{i=1}^N 0.5=0.5N
+\end{equation}
+
+Now, for the squared distance from the origin, we get
+\begin{equation}
+    <d^2>=<x^2+y^2>=<x^2>+<y^2>=0.5N+0.5N=N=4Dt
+\end{equation}
+if t=N, one step at one time interval.
+
+Where we again used the distributivity of the mean and the fact that $E(x^2)=E(y^2)$ in case $P(x)=P(y)$
+
 
 \subsection{Diffusion Equations and the Finite Difference Form}
 \label{sec:diffusionequation}
@@ -109,16 +152,73 @@ Typically, we call this equation the variance. % I used mathematica for the last
 \label{sec:computationsRandomWalk}
 To code the basic 2D walk, we assume that the probability to step in either direction left, right, up or down is the same. Then, for every step, we generate a random number. This is equivalent to drawing from Uniform (0,1). We assign every move to one of the segments of .25. If the random numbers falls within that value, we move in the assigned direction. The evidence for a successfully coded $2D$ walker program is given in Figure~\ref{fig:20steps} and \ref{fig:1000steps}.
 
+
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{rWalk1.png}
-  \caption{blah blah blah}\label{fig:20steps}
+  \caption{Random walk with 20 steps}\label{fig:20steps}
 \endminipage\hfill
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{rWalk2.png}
-  \caption{blah blah blah}\label{fig:1000steps}
+  \caption{Random walk with 1000 steps}\label{fig:1000steps}
 \endminipage\hfill
 \end{figure}
+
+
+Now, we can simulate $10^4$ random walks and compare the theoretical result of theory section with the simulations. 
+
+First, we see that indeed $<x>\approx 0$, since the curve for $<x>$ oscillates around 0, as shown in Figure~\ref{fig:meanX}
+
+We have also shown before that
+\begin{equation}
+    <x^2>=\sum_{i=1}^N <x_i^2>=\sum_{i=1}^N 0.5=0.5N
+\end{equation}
+When we simulate $<x^2>$ we indeed get the straight line with the slope equal to $0.5$ (see Figure~\ref{fig:meanX2}). 
+The mean distance squared ($<d^2>$) graph also looks as expected, as a straight like with slope equal to 1 ((see Figure~\ref{fig:meanD2}).
+Therefore, if $<d^2>=4Dt$, and steps are once at a time, diffusion constant is approximately $0.25$.
+
+\begin{figure}[!htb]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{meanX.png}
+  \caption{$<x>$ for random walk, $100$ steps}\label{fig:meanX}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{meanX2.png}
+  \caption{$<x^2>$ for random walk, $100$ steps}\label{fig:meanX2}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[!htb]
+\centerline{\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{meanD2.png}
+  \caption{$<d^2>$ for random walk, $100$ steps}\label{fig:meanD2}
+  \endminipage}
+\end{figure}
+
+By observing the data, and noting that the $log(<d>)\,vs\,log(n)$ is linear, we can get a full form for $<d>$ as a function of $n$. 
+\begin{equation}
+    log(<d>)=log<a>+b log(n)
+\end{equation}
+\begin{equation}
+    <d>=an^b
+\end{equation}
+
+ First, we plot $log(<d>)\,vs\,log(n)$, find a fit to the log curve and use the parameters to get the desired relation. In this case the curve was: 
+\begin{equation}
+    <d>=0.787n^{0.53}
+\end{equation}
+The power of $n$, which represents time in this case, is close to the expected $0.5$. The plots with fits can be seen on Figures~\ref{fig:meanDLog} and ~\ref{fig:meanD}.
+
+\begin{figure}[!htb]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{meanDLog.png}
+  \caption{$log(<d>)\,vs\,log(n)$}\label{fig:meanDLog}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{meanD.png}
+  \caption{Graph for $<d>$ with a fit}\label{fig:meanD}
+\endminipage\hfill
+\end{figure}
+
 
 \subsection{Diffusion of a Box Density Distribution}
 \label{sec:diffusion-boxdensity}
@@ -163,6 +263,4 @@ In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity6}, we took snapshots of t
 \subsection{Growing Clusters and Extracting Fractal Dimensions}
 \label{sec:clustersandfractals}
 
-\end{document} % This ends our document
-
-% INCOMPLETE
+\end{document}
