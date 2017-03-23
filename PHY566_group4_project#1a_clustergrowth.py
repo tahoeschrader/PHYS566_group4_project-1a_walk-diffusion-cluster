@@ -174,16 +174,17 @@ while not completeCluster:
 		
 			
 	#print update 
-	if randomWalkersCount in (100, 1000, 5000, 8000, 10000, 20000, 300000, 40000):
+	if randomWalkersCount in (100, 1000, 5000, 8000, 10000, 20000, 300000, 400000):
 		print("still working, have added ", randomWalkersCount, " random walkers", ". Lost at edge ", nearEdgeCount)
-	if randomWalkersCount==200000:
+	if randomWalkersCount==400000:
+		print("CAUTION: had to break the cycle, taking too much iterations")
 		completeCluster = True
 
     # Once it finds a friend and leaves the previous loop, we must check if it
     # is also touching a circular wall
 	if foundFriend and exitCircle:
 		matrixList[indexOnMatrix] = [location[0],location[1],1] # current location, replace with 1 and stop
-		print(randomWalkersCount-nearEdgeCount)
+		print("Random walkers in the cluster: ",randomWalkersCount-nearEdgeCount)
 		completeCluster = True
 
 print(matrixList)
