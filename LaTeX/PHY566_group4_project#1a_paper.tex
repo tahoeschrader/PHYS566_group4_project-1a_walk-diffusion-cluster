@@ -145,9 +145,7 @@ Typically, we call this equation the variance. % I used mathematica for the last
 \subsection{Cluster Growth with a DLA Model}
 \label{sec:clusterDLAmodel}
 
-
-
-The random walk idea could serve as a great tool to model cluster growth. One of the common cluster growth models is the diffusion limited aggregation (DLA) model, which starts with a seed particle at the origin of the system grid, and then release randomly generated starting walkers at a certain distance from the origin. The random walker is assumed to perform random walks until it reaches one of the boundary perimeter sites.  If so the sites that has been hit are updated to a new cluster. And the process is repeated until the cluster grows to a desired size. Compared to another model, Eden Model of cluster growth, the DLA cluster is sparser and has a crystal shape with many branches reaching out from the central cluster.\\
+The random walk idea could serve as a great tool to model cluster growth. One of the common cluster growth models is the diffusion limited aggregation (DLA) model, which starts with a seed particle at the origin of the system grid, and then release randomly generated starting walkers at a certain distance from the origin. The random walker is assumed to perform random walks until it reaches one of the boundary perimeter sites.  If so the sites that has been hit are updated to a new cluster. And the process is repeated until the cluster grows to a desired size. Compared to another model, Eden Model of cluster growth, the DLA cluster is sparser and has a crystal shape with many branches reaching out from the central cluster.
 
 Analogue to a 2-D disk whose mass is $m(r)=\sigma \pi r^2$ with $\sigma$ being the mass per unit area, and a linear stick whose mass is $m(r)=\lambda r$ with $\lambda$ the linear mass density, a cluster has its the fractal or effective dimension which is defined to be $d_f$, where
 
@@ -168,9 +166,6 @@ For a cluster, assuming each walker is given a unit mass, then the mass $m$ is t
      log(m) \sim d_f \cdot log(r)
 \end{equation}
 ,which will be simulated using diffusion limited aggregation method later.
- 
-
-
 
 
 \section{Computations}
@@ -291,12 +286,59 @@ In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity6}, we took snapshots of t
 \subsection{Growing Clusters and Extracting Fractal Dimensions}
 \label{sec:clustersandfractals}
 
-%%%%% space for illustration for the code we finally use. %%%%%%
+First, we simulate the DLA cluster by placing a seed in the middle. Then, the random walker is generated at the distance equal to the radius from the seed (center). This is done using a random number generator: we draw from (0,1) using random.random() and then multiply by $2\pi$ to get the angle in radians. Then we extract the coordinates in the matrix.
 
-By plotting the figure of $log(m)$ versus $log(r)$ simulated by the DLA cluster, the linear relation between these two parameters is obvious, with the slope of the straight line giving the fractal dimension of the generated cluster. And the proportionality constant is implied by the intercept of line with $y$ axis. We repeat the generation of cluster for 10 times to get the average fractal dimension with the given parameter so that the accuracy of $d_f$ is added. The results are as follows:
+To enhance the speed of the code we use a matrix in the form (X, Y, label). Label corresponds to either out of bounds of radius (=2), occupied by walker (=1) or vacant (=0). 
+
+Assumptions of our model: walker eventually finds either his 'friend', or in other words the other walker, or it wanders off to the edge of the square where it gets 'lost'. 
+
+Please reference Figures ~\ref{fig:dla1} to ~\ref{fig:dla6} for the DLA structures for varying radius (12, 32, 52, 62, 72, 102 respectively).
+
+\begin{figure}[!htb]
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster12run1.png}
+  \caption{}\label{fig:dla1}
+\endminipage\hfill
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster32run1.png}
+  \caption{}\label{fig:dla2}
+\endminipage\hfill \\
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster52run1.png}
+  \caption{}\label{fig:dla3}
+\endminipage\hfill
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster62run1.png}
+  \caption{}\label{fig:dla4}
+\endminipage\hfill
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster72run1.png}
+  \caption{}\label{fig:dla5}
+\endminipage\hfill
+\minipage{0.4\textwidth}
+  \includegraphics[width=\linewidth]{oneDLAcluster102radius.png}
+  \caption{}\label{fig:dla6}
+\endminipage\hfill
+\end{figure}
+
+
+By plotting the figure of $log(m)$ versus $log(r)$ simulated by the DLA cluster, the linear relation between these two parameters is obvious, with the slope of the straight line giving the fractal dimension of the generated cluster. And the proportionality constant is implied by the intercept of line with $y$ axis. We repeat the generation of cluster for 10 times to get the average fractal dimension with the given parameter so that the accuracy of $d_f$ is added. 
+
+First, note that the trend line is very similar to the one in the textbook, and provides a good fit (Figure ~\ref{fig:fitDim}. 
+The parameter of the slope shown is $2.06$
+
+\begin{figure}[!htb]
+\centerline{\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{logRadiusMass1.png}
+  \caption{Log radius vs log mass for the DLA cluster}\label{fig:fitDim}
+  \endminipage}
+\end{figure}
+
+After 10 iterations, the resulting fractal dimensions were:
+
+\textbf{2.067, 1.653, 1.877}
+
 
 %%%%%%   insertion of figures  %%%%%%
-
-
 
 \end{document}
