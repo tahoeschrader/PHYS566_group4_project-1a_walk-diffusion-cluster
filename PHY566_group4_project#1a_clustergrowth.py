@@ -1,23 +1,3 @@
-### Group 4
-### Computational Physics
-### Spring, 2017
-
-################################################################################
-### This code will simulate cluster growth in 2D using a Diffusion Limited
-### Aggregation Model (DLA). There will be three parts to this code:
-###             1) Use a circle of radius 100 as a starting point of the random
-###                walkers and a seed at the origin and grow a cluster till it
-###                reaches the edge of the circle.
-###                     --- INCOMPLETE
-###             2) Extract the fractal dimension of the cluster by plotting the
-###                "mass" of the cluster vs. its randius
-###                     --- INCOMPLETE
-###             3) Repeat the above 10 times for added accuracy in our extraction
-###                of the fractal dimension. Figures are provided for a
-###                representative sample (3-4) of our clusters.
-###                     --- INCOMPLETE
-################################################################################
-
 from pylab import *
 import random
 import math
@@ -39,8 +19,8 @@ seedX = 100                         # x coordinate of a seed particle
 seedY = 100                         # y coordinate of a seed
 squareSize = 201
 
-for row in range (0,201):
-	for col in range (0,201):
+for row in range (0,squareSize):
+	for col in range (0,squareSize):
 		if row==seedX and col==seedY:
 			matrixList=numpy.vstack((matrixList, [row,col,1]))
 		if numpy.sqrt((seedX-row)**2+(seedY-col)**2)>radius:
@@ -63,38 +43,40 @@ print("Matrix List Initialized")
 
 # This functions checks the perimeter and then embarks on a random walk
 def checkAround(location):
-	foundFriend = False
-	nearEdge = False
-
+	foundFriend = False #found another particle
+	exitCircle = False #reached the required radius
+	nearEdge=False #near the edge of the field
+	
+	
     # Check if a walker is near the edge
 	if (location[1] + 1) > squareSize - 1 or (location[1] - 1) < 1 or (location[0] + 1) > squareSize - 1 or (location[0] - 1) < 1:
 		nearEdge = True
 
-    # If not near the edge, check if the walker is near a neighbor
+    # If not near the edge, check if the walker is near a neighbor or reached the required radius
 	if not nearEdge:
 		neighborDown = matrixList[(location[1]+1)*squareSize+location[0]+1]
 		if neighborDown[2] == 1:
 			foundFriend = True
 		if neighborDown[2] == 2:
-			nearEdge = True
+			exitCircle = True
 
 		neighborUp=matrixList[(location[1]-1)*squareSize+location[0]+1]
 		if neighborUp[2]==1:
 			foundFriend=True
 		if neighborUp[2]==2:
-			nearEdge=True
+			exitCircle=True
 
 		neighborRight=matrixList[location[1]*squareSize+location[0]+1+1]
 		if neighborRight[2]==1:
 			foundFriend=True
 		if neighborRight[2]==2:
-			nearEdge=True
+			exitCircle=True
 
 		neighborLeft=matrixList[location[1]*squareSize+location[0]]
 		if neighborLeft[2]==1:
 			foundFriend=True
 		if neighborLeft[2]==2:
-			nearEdge=True
+			exitCircle=True
 
     # After checking locations, if locations are good, start the random walk
 	if not foundFriend and not nearEdge:
@@ -108,14 +90,21 @@ def checkAround(location):
 		else:
 			location = [location[0],location[1] - 1]
 
-	return (location, foundFriend, nearEdge)
+	return (location, foundFriend, nearEdge, exitCircle)
 
 # ------------------------------------------------------------------------------
-
+#Function that relates the position (X,Y) on the graph with the row of matrix list
 def indexM(x,y):
 	return y * squareSize + x + 1
 
 # ------------------------------------------------------------------------------
+#Function the generates the random location, at the specified radius
+def randomAtRadius(radius, squareSize):
+	theta = 2*numpy.pi*random.random() #generate random X
+	x=int(radius*numpy.cos(theta))+radius
+	y=int(radius*numpy.sin(theta))+radius
+	location=[x, y]
+	return location
 
 ################################################################################
 ### Run the random walker to create a cluster
@@ -129,33 +118,35 @@ randomWalkersCount = 0
 # Set the cluster to NOT be completed in size
 completeCluster = False
 
+#exitCircle = False #not reached the required radius
+#nearEdge=False #not near the edge of the field
+
 # Start running random walkers
+nearEdgeCount=0 #keep track of number lost
 while not completeCluster:
 	# Release a walker
 	randomWalkersCount += 1
 	random.seed()
 
 	# Generate a (Xstart, Ystart) for walker, need within radius
-	withinCircle = False # identity to check if within circle
-	while not withinCircle:
-		xStart = randint(0,squareSize)
-		yStart = randint(0,squareSize)
-		if numpy.sqrt((seedX-xStart)**2+(seedY-yStart)**2) < radius:
-			withinCircle = True # have a value
+	location=randomAtRadius(radius, squareSize)
 
 	# Initialize variables, like step counter, location array, Friend tag
 	steps = 0
-	location = [xStart, yStart] # column and row on matrix
+	#location = [xStart, yStart] # column and row on matrix
 	foundFriend = False
+	
+	nearEdge=False #not near the edge of the field
+	
+	
 
-    # Set an individual walker out, if its puttering about at the edge near
-    # 2000 steps, give up on it!
-	while not foundFriend and steps < 2000:
+    # Set an individual walker out, give up if it reached the edge of the board
+	while not foundFriend and not nearEdge:# and steps < 2000:
         # Add to the step counter
 		steps += 1
 
         # Run the checking/walking function
-		locationNew,foundFriend, nearEdge = checkAround(location)
+		locationNew,foundFriend, nearEdge, exitCircle = checkAround(location)
 
         # Save the location where the walker is located
 		indexOnMatrix = location[1]*squareSize+location[0]+1
@@ -167,18 +158,32 @@ while not completeCluster:
 
         # If near an edge and its been a long time... give up this while loop,
         # which means use a break function (I think)
-		if nearEdge and steps == 1999:
-			break
+		#if nearEdge and steps == 1999:
+		#	break
 
         # Otherwise, save the location
 		else:
 			location = locationNew
+			
+		
+		#if steps>10000:
+		#	nearEdge=True
+			
+		if nearEdge:
+			nearEdgeCount+=1
+		
+			
+	#print update 
+	if randomWalkersCount in (100, 1000, 5000, 8000, 10000, 20000, 300000, 40000):
+		print("still working, have added ", randomWalkersCount, " random walkers", ". Lost at edge ", nearEdgeCount)
+	if randomWalkersCount==200000:
+		completeCluster = True
 
-    # Once it finds a friend a leaves the previous loop, we must check if it
-    # is also touching a wall
-	if foundFriend and nearEdge :
+    # Once it finds a friend and leaves the previous loop, we must check if it
+    # is also touching a circular wall
+	if foundFriend and exitCircle:
 		matrixList[indexOnMatrix] = [location[0],location[1],1] # current location, replace with 1 and stop
-		print(randomWalkersCount)
+		print(randomWalkersCount-nearEdgeCount)
 		completeCluster = True
 
 print(matrixList)
@@ -192,10 +197,10 @@ print(matrixList)
 # ------------------------------------------------------------------------------
 
 matrix = numpy.zeros((201,201))
-for row in range (0,201):
-	for col in range (0,201):
-		value = matrixList[indexM(col,row)]
-		matrix[row,col] = value[2]
+for row1 in range (0,201):
+	for col1 in range (0,201):
+		value = matrixList[indexM(col1,row1)]
+		matrix[row1,col1] = value[2]
 print(matrix)
 
 fig = plt.subplot()
@@ -203,7 +208,5 @@ plt.title("DLA Cluster", fontsize=20)
 plt.imshow(matrix, interpolation='nearest')
 plt.xlabel("direction, $x$", fontsize=15)
 plt.ylabel("direction, $y$", fontsize=15)
-plt.savefig('LaTeX/oneDLAcluster.png')
+plt.savefig('oneDLAcluster.png')
 plt.show()
-
-# ------------------------------------------------------------------------------
