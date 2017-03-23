@@ -145,6 +145,34 @@ Typically, we call this equation the variance. % I used mathematica for the last
 \subsection{Cluster Growth with a DLA Model}
 \label{sec:clusterDLAmodel}
 
+
+
+The random walk idea could serve as a great tool to model cluster growth. One of the common cluster growth models is the diffusion limited aggregation (DLA) model, which starts with a seed particle at the origin of the system grid, and then release randomly generated starting walkers at a certain distance from the origin. The random walker is assumed to perform random walks until it reaches one of the boundary perimeter sites.  If so the sites that has been hit are updated to a new cluster. And the process is repeated until the cluster grows to a desired size. Compared to another model, Eden Model of cluster growth, the DLA cluster is sparser and has a crystal shape with many branches reaching out from the central cluster.\\
+
+Analogue to a 2-D disk whose mass is $m(r)=\sigma \pi r^2$ with $\sigma$ being the mass per unit area, and a linear stick whose mass is $m(r)=\lambda r$ with $\lambda$ the linear mass density, a cluster has its the fractal or effective dimension which is defined to be $d_f$, where
+
+\begin{equation}
+  \label{eq:fractaldimension1}
+     m(r)=C\cdot r^{d_f}
+\end{equation}
+thus
+\begin{equation}
+  \label{eq:fractaldimension2}
+     log(m)=C+d_f\ log(r)
+\end{equation}
+
+For a cluster, assuming each walker is given a unit mass, then the mass $m$ is the number of walkers and $r$ is the radius of the cluster, with a proportionality constant $C$. If counting the particles within radius r around the origin seed position, we could find the relation:
+
+\begin{equation}
+  \label{eq:fractaldimension3}
+     log(m) \sim d_f \cdot log(r)
+\end{equation}
+,which will be simulated using diffusion limited aggregation method later.
+ 
+
+
+
+
 \section{Computations}
 \label{sec:computations}
 
@@ -262,5 +290,13 @@ In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity6}, we took snapshots of t
 
 \subsection{Growing Clusters and Extracting Fractal Dimensions}
 \label{sec:clustersandfractals}
+
+%%%%% space for illustration for the code we finally use. %%%%%%
+
+By plotting the figure of $log(m)$ versus $log(r)$ simulated by the DLA cluster, the linear relation between these two parameters is obvious, with the slope of the straight line giving the fractal dimension of the generated cluster. And the proportionality constant is implied by the intercept of line with $y$ axis. We repeat the generation of cluster for 10 times to get the average fractal dimension with the given parameter so that the accuracy of $d_f$ is added. The results are as follows:
+
+%%%%%%   insertion of figures  %%%%%%
+
+
 
 \end{document}
