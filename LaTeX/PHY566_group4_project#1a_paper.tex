@@ -14,7 +14,7 @@
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx,xcolor}
 \usepackage{subfig}
-\usepackage{booktabs}
+\usepackage{booktabs,hyperref}
 \usepackage[left=2cm,%
 right=2cm,%
 top=2cm,%
@@ -50,7 +50,7 @@ Our code is available on GitHub:
 \label{sec:theory}
 
 \subsection{Random Walks in 2D}
-Consider a 2D random walk. The displacement in the x direction is equal to the sum of displacement in x direction at every step. 
+Consider a 2D random walk. The displacement in the x direction is equal to the sum of displacement in x direction at every step.
 
 \begin{equation}
     X=\sum_{i=1}^{n} x_i
@@ -70,7 +70,7 @@ For the mean x-squared displacement we get
     <x^2>=<x_1^2>+<x_2>^2+<x_3^2>+<x_1x_2>+<x_1x_3>+<x_2x_3>...
 \end{equation}
 
-We see that the result consist of combinations of $<x_i^2>$ and $<x_ix_j>$. Note that 
+We see that the result consist of combinations of $<x_i^2>$ and $<x_ix_j>$. Note that
 \begin{equation}
     E(x_ix_j)=1*0.25^2+1*0.25^2+(-1)*0.25^2+(-1)*0.25^2=0
 \end{equation}
@@ -82,7 +82,7 @@ For the square terms, on the contrary, we always get $x_i=\pm 1$ and therefore $
     E(x_i^2)=1*0.25+1*0.25=0.5
 \end{equation}
 
-This means that 
+This means that
 \begin{equation}
     <x^2>=\sum_{i=1}^N <x_i^2>=\sum_{i=1}^N 0.5=0.5N
 \end{equation}
@@ -192,7 +192,7 @@ To code the basic 2D walk, we assume that the probability to step in either dire
 \end{figure}
 
 
-Now, we can simulate $10^4$ random walks and compare the theoretical result of theory section with the simulations. 
+Now, we can simulate $10^4$ random walks and compare the theoretical result of theory section with the simulations.
 
 First, we see that indeed $<x>\approx 0$, since the curve for $<x>$ oscillates around 0, as shown in Figure~\ref{fig:meanX}
 
@@ -200,7 +200,7 @@ We have also shown before that
 \begin{equation}
     <x^2>=\sum_{i=1}^N <x_i^2>=\sum_{i=1}^N 0.5=0.5N
 \end{equation}
-When we simulate $<x^2>$ we indeed get the straight line with the slope equal to $0.5$ (see Figure~\ref{fig:meanX2}). 
+When we simulate $<x^2>$ we indeed get the straight line with the slope equal to $0.5$ (see Figure~\ref{fig:meanX2}).
 The mean distance squared ($<d^2>$) graph also looks as expected, as a straight like with slope equal to 1 ((see Figure~\ref{fig:meanD2}).
 Therefore, if $<d^2>=4Dt$, and steps are once at a time, diffusion constant is approximately $0.25$.
 
@@ -221,7 +221,7 @@ Therefore, if $<d^2>=4Dt$, and steps are once at a time, diffusion constant is a
   \endminipage}
 \end{figure}
 
-By observing the data, and noting that the $log(<d>)\,vs\,log(n)$ is linear, we can get a full form for $<d>$ as a function of $n$. 
+By observing the data, and noting that the $log(<d>)\,vs\,log(n)$ is linear, we can get a full form for $<d>$ as a function of $n$.
 \begin{equation}
     log(<d>)=log<a>+b log(n)
 \end{equation}
@@ -229,7 +229,7 @@ By observing the data, and noting that the $log(<d>)\,vs\,log(n)$ is linear, we 
     <d>=an^b
 \end{equation}
 
- First, we plot $log(<d>)\,vs\,log(n)$, find a fit to the log curve and use the parameters to get the desired relation. In this case the curve was: 
+ First, we plot $log(<d>)\,vs\,log(n)$, find a fit to the log curve and use the parameters to get the desired relation. In this case the curve was:
 \begin{equation}
     <d>=0.787n^{0.53}
 \end{equation}
@@ -299,9 +299,9 @@ In Figures~\ref{fig:probdensity1}-\ref{fig:probdensity6}, we took snapshots of t
 
 First, we simulate the DLA cluster by placing a seed in the middle. Then, the random walker is generated at the distance equal to the radius from the seed (center). This is done using a random number generator: we draw from (0,1) using random.random() and then multiply by $2\pi$ to get the angle in radians. Then we extract the coordinates in the matrix.
 
-To enhance the speed of the code we use a matrix in the form (X, Y, label). Label corresponds to either out of bounds of radius (=2), occupied by walker (=1) or vacant (=0). 
+To enhance the speed of the code we use a matrix in the form (X, Y, label). Label corresponds to either out of bounds of radius (=2), occupied by walker (=1) or vacant (=0).
 
-Assumptions of our model: walker eventually finds either his 'friend', or in other words the other walker, or it wanders off to the edge of the square where it gets 'lost'. 
+Assumptions of our model: walker eventually finds either his 'friend', or in other words the other walker, or it wanders off to the edge of the square where it gets 'lost'.
 
 Please reference Figures ~\ref{fig:dla1} to ~\ref{fig:dla6} for the DLA structures for varying radius (12, 32, 52, 62, 72, 102 respectively).
 
@@ -333,9 +333,9 @@ Please reference Figures ~\ref{fig:dla1} to ~\ref{fig:dla6} for the DLA structur
 \end{figure}
 
 
-By plotting the figure of $log(m)$ versus $log(r)$ simulated by the DLA cluster, the linear relation between these two parameters is obvious, with the slope of the straight line giving the fractal dimension of the generated cluster. And the proportionality constant is implied by the intercept of line with $y$ axis. We repeat the generation of cluster for 10 times to get the average fractal dimension with the given parameter so that the accuracy of $d_f$ is added. 
+By plotting the figure of $log(m)$ versus $log(r)$ simulated by the DLA cluster, the linear relation between these two parameters is obvious, with the slope of the straight line giving the fractal dimension of the generated cluster. And the proportionality constant is implied by the intercept of line with $y$ axis. We repeat the generation of cluster for 10 times to get the average fractal dimension with the given parameter so that the accuracy of $d_f$ is added.
 
-First, note that the trend line is very similar to the one in the textbook, and provides a good fit (Figure ~\ref{fig:fitDim}. 
+First, note that the trend line is very similar to the one in the textbook, and provides a good fit (Figure ~\ref{fig:fitDim}.
 The parameter of the slope shown is $2.06$
 
 \begin{figure}[!htb]
@@ -349,7 +349,7 @@ After 10 iterations, the resulting fractal dimensions were:
 
 \textbf{2.067, 1.653, 1.877, 1.833, 1.607, 1.832,1.782, 1.712, 1.843, 1.862}
 
-The mean value is then $1.807$. This is between 1 (line) and 2 (solid disc) and therefore close to the expected value for the dimensionality. 
+The mean value is then $1.807$. This is between 1 (line) and 2 (solid disc) and therefore close to the expected value for the dimensionality.
 
 
 
