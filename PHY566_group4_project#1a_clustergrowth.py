@@ -91,7 +91,7 @@ for i in range(10):
 	i+=1
 	mass=numpy.array([0])
 
-	radiusArray=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+	radiusArray=[10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 	for radius in radiusArray:
 	
@@ -275,3 +275,5 @@ for i in range(10):
 	fractalDim=numpy.append(fractalDim, fitLog[0])
 
 print("Resulting fractal dimensions ",fractalDim)
+
+
