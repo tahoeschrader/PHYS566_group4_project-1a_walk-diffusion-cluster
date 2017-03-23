@@ -1,3 +1,23 @@
+### Group 4
+### Computational Physics
+### Spring, 2017
+
+################################################################################
+### This code will simulate cluster growth in 2D using a Diffusion Limited
+### Aggregation Model (DLA). There will be three parts to this code:
+###             1) Use a circle of radius 100 as a starting point of the random
+###                walkers and a seed at the origin and grow a cluster till it
+###                reaches the edge of the circle.
+###                     --- COMPLETE
+###             2) Extract the fractal dimension of the cluster by plotting the
+###                "mass" of the cluster vs. its randius
+###                     --- COMPLETE
+###             3) Repeat the above 10 times for added accuracy in our extraction
+###                of the fractal dimension. Figures are provided for a
+###                representative sample (3-4) of our clusters.
+###                     --- COMPLETE
+################################################################################
+
 from pylab import *
 import random
 import math
@@ -18,8 +38,8 @@ def checkAround(location):
 	foundFriend = False #found another particle
 	exitCircle = False #reached the required radius
 	nearEdge=False #near the edge of the field
-	
-	
+
+
     # Check if a walker is near the edge
 	if (location[1] + 1) > squareSize - 1 or (location[1] - 1) < 1 or (location[0] + 1) > squareSize - 1 or (location[0] - 1) < 1:
 		nearEdge = True
@@ -94,14 +114,14 @@ for i in range(10):
 	radiusArray=[10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 	for radius in radiusArray:
-	
+
 		#initialize variables that are dependent upon the radius
 		#note - we add 2 to the parameters to get a thick broder between the edges of the disk and square
 		seedX = radius+2                        # x coordinate of a seed particle
 		seedY = radius+2                         # y coordinate of a seed
 		squareSize = radius*2+5
-	
-	
+
+
 		#initialize the list that would carry coordinates of the filled entries: (row, column, filled(0=empty, 1=filled))
 		matrixList=numpy.array([0,0,0])     # create a first entry of the matrix
 		#populate the matrix list using a for loop
@@ -137,7 +157,7 @@ for i in range(10):
 
 		# Start running random walkers
 		nearEdgeCount=0 #keep track of number lost at the edge of the whole field
-	
+
 		while not completeCluster:
 			# Release a walker
 			randomWalkersCount += 1
@@ -150,7 +170,7 @@ for i in range(10):
 			steps = 0
 			foundFriend = False #not near other particle
 			nearEdge=False #not near the edge of the field
-	
+
 
 			# Set an individual walker out, stop if found a 'friend', give up if it reached the edge of the board
 			while not foundFriend and not nearEdge:
@@ -176,9 +196,9 @@ for i in range(10):
 				#if wandered off to the edge of the square - count it as "lost", update counter
 				if nearEdge:
 					nearEdgeCount+=1
-		
-			
-			#print update 
+
+
+			#print update
 			if randomWalkersCount in (100, 1000, 5000, 8000, 10000, 20000, 300000, 400000):
 				print("still working, have added ", randomWalkersCount, " random walkers", ". Lost at edge ", nearEdgeCount)
 			if randomWalkersCount==400000:
@@ -195,14 +215,14 @@ for i in range(10):
 		#Update the mass of the cluster
 		mass=numpy.append(mass, randomWalkersCount-nearEdgeCount)
 		print(matrixList)
-	
+
 		matrix = numpy.zeros((squareSize,squareSize))
 		for row1 in range (0,squareSize):
 			for col1 in range (0,squareSize):
 				value = matrixList[indexM(col1,row1)]
 				matrix[row1,col1] = value[2]
 		print(matrix)
-	
+
 
 		label=str(radius)+"run"+str(i)
 		fig = plt.subplot()
@@ -213,11 +233,11 @@ for i in range(10):
 		plt.savefig("oneDLAcluster{}.png".format(label))
 		plt.show(block=False)
 
-	#delete the first entry in mass, since 
+	#delete the first entry in mass, since
 	mass = numpy.delete(mass,0)
 	radius=numpy.add(radius,2) #add two as we rescaled during calculations
 
-	
+
 
 	#------- Find fit for mass and radius of the cluster:
 	# Find log radius and log mass
@@ -251,8 +271,8 @@ for i in range(10):
 	plt.xlabel("Log radius",fontsize=15)
 	plt.ylabel("Log mass",fontsize=15)
 	plt.grid(True)
-	fig4.spines["top"].set_visible(False)  
-	fig4.spines["right"].set_visible(False)  
+	fig4.spines["top"].set_visible(False)
+	fig4.spines["right"].set_visible(False)
 	plt.savefig('logRadiusMass{}.png'.format(i))
 	show(block=False)
 
@@ -265,15 +285,15 @@ for i in range(10):
 	plt.xlabel("Radius",fontsize=15)
 	plt.ylabel("Mass",fontsize=15)
 	plt.grid(True)
-	fig5.spines["top"].set_visible(False)  
-	fig5.spines["right"].set_visible(False)  
+	fig5.spines["top"].set_visible(False)
+	fig5.spines["right"].set_visible(False)
 	plt.savefig('radiusMass.png')
 	plt.draw()#plt.show(block=False)
 	plt.show()
 	"""
-	
+
 	fractalDim=numpy.append(fractalDim, fitLog[0])
 
 print("Resulting fractal dimensions ",fractalDim)
 
-
+# Status?
