@@ -31,7 +31,7 @@ letterpaper]{geometry}%
 %\graphicspath{{}}
 
 % Article Information
-\title{Percolation}
+\title{Percolation of a 2D Lattice}
 \author{Tahoe Schrader, Ksenia Sokolova, Xinmeng Tong \\PHYS566}
 \date{}
 
@@ -41,13 +41,79 @@ letterpaper]{geometry}%
 
 % Start with the abstract
 
-\abstract{In this assignment we...
-Our code is available on GitHub:
+\abstract{In this assignment we computationally explore various $2D$ lattices and generate their spanning clusters, $p_c$ and $\beta$. These variables refer to the probability a spanning cluster arises at and the critical exponent of a spanning cluster, respectively. Theoretically, these values for an infinite $2D$ lattice are $p_c\approx 0.593$ and $\beta=\frac{5}{36}$. \\
+Our code is available on GitHub: \\
 
-\url{www.github.com}}
+\url{www.github.com/tahoeschrader/PHYS566_group4_projects}}
 
 \section{Theory}
 \label{sec:theory}
+Percolation theory describes the behavior of connected clusters. This theory has many important relations to physics and chemistry. For example, it can be used to describe the movement and filtering of fluids through porous materials. When a system \emph{percolates}, a $2^\text{nd}$ order phase transition can also result.
+
+The act of percolation refers to the existence of a spanning cluster. A spanning cluster is a cluster that reaches all edges of a physical boundary. For example, a spanning cluster must touch all four sides of a $2D$ box as seen in Figure~\ref{fig:spanningclusterexample}. Percolation, i.e. a system exhibiting a spanning cluster, is interesting because universality is \emph{also} exhibited. Universality is when the properties of the system are independent of the systems dynamical details.
+
+One feature of the percolating system that we would like to document is the clustering probability, $p_c$, where generally
+\begin{equation}
+  \label{eq:probability}
+  p = \frac{\text{\# of occupied lattice sites}}{\text{total lattice sites}}.
+\end{equation}
+
+Probability ranges and the theoretical results of such values are displayed in Table~\ref{table:pvalues}.
+\begin{table}[!htb]
+\centering{\minipage{0.75\textwidth}
+  \centering{\begin{tabular}{ l | l }
+    \hline
+    small $p$ &  isolated clusters \\
+    $p\approx 0.4$ &  many small clusters \\
+    $p\approx 0.6$ &  large, barely connected clusters \\
+    $p\approx 0.8$ &  most sites belong to same cluster \\
+    \hline
+  \end{tabular}}
+  \caption{The physical representation of various occupation probabilities on a lattice.}
+  \label{table:pvalues}
+\endminipage}
+\end{table}
+
+Another important value in percolation theory is the fraction of all sites in the spanning cluster with respect to all occupied sites. This value is dfined as $F$ and takes the form
+\begin{equation}
+  \label{eq:spanningfraction}
+  F = F_0 \left(p - p_c\right)^\beta,
+\end{equation}
+where $\beta$ is the critical exponent.
+
+\subsection{2D Lattice Systems}
+\label{sec:lattice}
+
+The steps for generating a $2D$ percolating lattice are quite simple:
+\begin{enumerate}
+  \label{code:percolatinglattice}
+  \item Generate a 2D lattice
+  \item Populate a single lattice site at random and define it to be a cluster
+  \item Populate another single lattice site at random
+  \begin{enumerate}
+    \item If the new site touches an old site, add it to the cluster
+    \item If the new site doesn't touch an old site, define it to be a new cluster
+    \item If the new site touches multiple different clusters, choose one at random to "win" and overtake the other clusters
+  \end{enumerate}
+  \item Repeat until a spanning cluster arises
+\end{enumerate}
+
+It is evident that larger values of $p$ will more likely result in the existence of a spanning cluster than smaller values of $p$. Interestingly, the transmission from many clusters to a spanning cluster is sharp, qualifying it as a phase transition. For an infinite $2D$ lattice, the theoretical probability where this occurs is
+\begin{equation}
+  \label{eq:theoreticalpc}
+  p_c \approx 0.593
+\end{equation}
+whereas the critical exponent of the spanning cluster fraction is
+\begin{equation}
+  \label{eq:theoreticalbeta}
+  \beta = \frac{5}{36}.
+\end{equation}
+
+In Section~\ref{sec:results}, we computationally explore such a $2D$ lattice and generate spanning clusters, $p_c$ and $\beta$ for various lattice sizes.
+
+\section{Results}
+\label{sec:results}
+
 
 
 \end{document}
