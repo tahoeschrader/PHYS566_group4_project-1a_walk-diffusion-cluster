@@ -40,7 +40,7 @@ num_average = 50                # calculations to be averaged 50x
 
 # ------------------------------------------------------------------------------
 
-def Neighborhood() :
+def Neighborhood(new_location_row, new_location_col,current_N, current_lattice) :
     # Initialize all special sites to False
     top_edge = False
     bottom_edge = False
@@ -118,7 +118,7 @@ def Neighborhood() :
 
 # ------------------------------------------------------------------------------
 
-def SpanningCluster() :
+def SpanningCluster(current_lattice, current_N) :
     # Grab the top edge data
     on_top = current_lattice[0, :]
 
@@ -143,6 +143,7 @@ def SpanningCluster() :
 
             # Finally, check to see if they are all true at the same time... a feat
             # which corresponds to the existance of a spanning cluster...
+            spanning_cluster=False
             if bottom_match == True and left_match == True and right_match == True :
                 spanning_cluster = True
 
@@ -182,11 +183,11 @@ def ClusterBuilder(current_N) :
         new_location_col = rnd.randint(0,current_N-1)
 
         # Make sure this spot has not already been chosen
-        if current_lattice[new_location_x,new_location_y] > 0 :
+        if current_lattice[new_location_row,new_location_col] > 0 :
             continue
 
         # Now, obtain the values of lattice sites surrounding the new point
-        top, bottom, left, right = Neighborhood()
+        top, bottom, left, right = Neighborhood(new_location_row, new_location_col,current_N, current_lattice)
 
         # If there are no neighbors, give this lattice point a value equal to
         # the cluster counter, add to the cluster counter, and continue the loop
@@ -202,28 +203,28 @@ def ClusterBuilder(current_N) :
             current_lattice[new_location_row, new_location_col] = top
 
             # Check for a spanning cluster and start the loop over
-            spanning_cluster = SpanningCluster()
+            spanning_cluster = SpanningCluster(current_lattice, current_N)
             continue
 
         elif top == 0 and bottom > 0 and left == 0 and right == 0 :
             current_lattice[new_location_row, new_location_col] = bottom
 
             # Check for a spanning cluster and start the loop over
-            spanning_cluster = SpanningCluster()
+            spanning_cluster = SpanningCluster(current_lattice, current_N)
 
             continue
         elif top == 0 and bottom == 0 and left > 0 and right == 0 :
             current_lattice[new_location_row, new_location_col] = left
 
             # Check for a spanning cluster and start the loop over
-            spanning_cluster = SpanningCluster()
+            spanning_cluster = SpanningCluster(current_lattice,current_N)
             continue
 
         elif top == 0 and bottom == 0 and left == 0 and right > 0 :
             current_lattice[new_location_row, new_location_col] = right
 
             # Check for a spanning cluster and start the loop over
-            spanning_cluster = SpanningCluster()
+            spanning_cluster = SpanningCluster(current_lattice,current_N)
             continue
 
         # Arriving here means there are multiple neighbors. Count clusters and
@@ -238,7 +239,7 @@ def ClusterBuilder(current_N) :
         cluster_dict = {}
         for i in range(3) :
             if neighbors[i] > 0 :
-                cluster_dict{"neighbor {}".format(i + 1)} = neighbors[i]
+                cluster_dict["neighbor {}".format(i + 1)] = neighbors[i]
                 nearby_clusters += 1
 
         # Depending on the number of nearby clusters, we change the random number metric
@@ -397,6 +398,14 @@ def ClusterBuilder(current_N) :
 
     return current_lattice, pc
 
-# ------------------------------------------------------------------------------
 
-# INCOMPLETE
+
+############# DO the plots
+
+#b) Determine pc and plot the cluster for N = 5, 10, 15, 20, 30,
+###                50, and 80 across an average of 50x
+###                            --- INCOMPLETE. Neither of these have been added
+###             c) Plot pc(N^-1) to extrapolate infinite size limit pc(0)
+
+
+print(ClusterBuilder(5))
