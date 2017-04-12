@@ -4,6 +4,9 @@ import random
 import numpy
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from matplotlib import cm
+import os
+from matplotlib.cm import hot
 
 #Percolation
 ########################################################################################
@@ -104,17 +107,83 @@ def pValueCalc(matrix, N):
 #Main runner for the function
 #Takes in the matrix and evaluates everything
 #RETURNS: pValue and matrix
-def mainFunction(N):
+def mainFunction(N, needGif):
+
+
+    ###NOTE: if NeedGif - save all inetrmediate steps
+
+    #check that the folder images exists
+    if not os.path.isdir("images"):
+        os.mkdir("images")
+    
+    #import the library if need gif
+    if needGif:
+        #Import there libraries if intend to save gif
+        #NOTE: need imageio package, and ffmpeg. Refer to readme for more info
+        import imageio
+
+
     #initialize variables for the run
     cluster=False
     clusterNumber=1 #initialize the cluster number
     matrix=numpy.zeros((N, N)) #initialize matrix
+    counterLocal=0 #for the images saving
+
+
+    #Define the map for the plot
+    cmap=cm.autumn.from_list('whatever', ('skyblue', 'midnightblue'), N=30)
+    cmap.set_bad(color='white')
+
+    #fill in the matrix
     while not cluster: 
         matrix, clusterNumber=randomPlacement(matrix, clusterNumber, N)
+        counterLocal+=1
+        ###############
+        # need gif
+        if needGif and counterLocal%7==0:
+            #save the pics for the animation
+            matrixPlot = numpy.ma.masked_where(matrix < 0.05, matrix)
+            plt.title("Percolation", fontsize=20)
+            plt.matshow(matrixPlot, interpolation='nearest',cmap=cmap) #ocean, Paired
+            plt.xlabel("direction, $x$", fontsize=15)
+            plt.ylabel("direction, $y$", fontsize=15)
+            plt.savefig("images/percolation{}.png".format(counterLocal))
+            plt.show(block=False)
+            plt.close()
+        ###################
         if checkCluster(matrix, N): #check for cluster
             break #we have a cluster formed now
+    
+    #save the final plot
+    if needGif:
+        matrixPlot = numpy.ma.masked_where(matrix < 0.05, matrix)
+        plt.title("Percolation", fontsize=20)
+        plt.matshow(matrixPlot, interpolation='nearest',cmap=cmap) #ocean, Paired
+        plt.xlabel("direction, $x$", fontsize=15)
+        plt.ylabel("direction, $y$", fontsize=15)
+        plt.savefig("images/percolation.png")
+        plt.show(block=False)
     pValue=pValueCalc(matrix, N)
+
+
+    ###############
+    # need gif
+    if needGif:
+        with imageio.get_writer('images/movie.gif', mode='I') as writer:
+            for i in numpy.arange(0,counterLocal,7):
+                if i!=0:
+                    filename="images/percolation"+str(i)+".png"
+                    image = imageio.imread(filename)
+                    writer.append_data(image)
+                    os.remove(filename)
+            image = imageio.imread("images/percolation.png")
+            writer.append_data(image)
+    ###################
+
     return (pValue, matrix)
+
+
+
 
 
 
