@@ -77,9 +77,9 @@ for N in Nvalues:
         value, matrix = mainFunction(N, False)
         sumPvalues += value
 
-    # Now, average the p values
+    # Now, average the p values and update the counter
     pValues[count]=sumPvalues/runs
-    count+=1 # update counter
+    count+=1
 
 print(pValues)
 print(matrix)
