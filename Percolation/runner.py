@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 
 
 ##### INPUT parameters
-#Range of N;s
-Nvalues=numpy.array([5,10,15,20,30, 50])#,50,80])
+#Range of Ns
+Nvalues=numpy.array([5,10,15,20,30, 50,80])
 #Number or runs <----------- Need to be 50
-runs=10
+runs=50
 
 ############ Runner
 # Array for the p-values, same length as N
@@ -23,7 +23,9 @@ count=0
 for N in Nvalues:        
     sumPvalues=0 #value for calculating average, sum all over and then divide by sums
     for i in range(0,runs): #repeat specified number of times
-        value, matrix=mainFunction(N) #call the main function. Does everything
+
+        ## IMPORTANT: to save GIF parse TRUE, BUT need player AND takes long
+        value, matrix=mainFunction(N, False) #call the main function. Does everything
         sumPvalues+=value
     print('Still working, found the p values for matrix of size ', N) #update for the user
     #now we have pvalues summer 'runs' times
