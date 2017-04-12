@@ -9,9 +9,10 @@ from matplotlib import colors
 ########################################################################################
 #BASE code for placing numbers and checking for neighbors, relabeling if needed
 # ---- DONE
-
-# Needs: 
 #--- Check for the spanning cluster
+# ---- DONE
+
+#Needs:
 #--- Runner for part a (repeat # of times etc)
 
 
@@ -70,6 +71,41 @@ def randomPlacement(matrix, clusterNumber, N):
     matrix=checkAround(matrix, clusterNumber, row, col, N) #check around for neighbors
     return matrix, clusterNumber+1
 
+
+#This function determines if it is a cluster
+def checkCluster(matrix, N):
+    #check what nonzero values on the edges we have. If some coincide = we have a cluster
+    upperRowNumbers=numpy.unique(matrix[0,:])
+    leftColNumbers=numpy.unique(matrix[:,0])
+    lowRowNumbers=numpy.unique(matrix[N-1,:])
+    rightColNumbers=numpy.unique(matrix[:,N-1])
+
+
+    #remove zeros
+    upperRowNumbers=upperRowNumbers[upperRowNumbers!=0]
+    leftColNumbers=leftColNumbers[leftColNumbers!=0]
+    lowRowNumbers=lowRowNumbers[lowRowNumbers!=0]
+    rightColNumbers=rightColNumbers[rightColNumbers!=0]
+
+    #Check for common elements. For loop structure, alike the function any() in Python 
+    for element1 in upperRowNumbers:
+        for element2 in leftColNumbers:
+            for element3 in lowRowNumbers:
+                for element4 in rightColNumbers:
+                    if element1==element2==element3==element4:
+                        return True 
+    return False
+
+
+def pValueCalc(matrix, N):
+    return numpy.count_nonzero(matrix)/N
+
+
+
+
+
+
+
 ##########################################################################################
 
 
@@ -82,13 +118,26 @@ def randomPlacement(matrix, clusterNumber, N):
 
 ####################### To test
 ###### For fixed N
-N=4  #define size of matrix
+N=40  #define size of matrix
 matrix=numpy.zeros((N, N)) #initialize matrix
 
 clusterNumber=1 #initialize the cluster number
 
-for i in range(0,10): #repeat 10 times
+cluster=False
+
+while not cluster: #repeat 10 times
     matrix, clusterNumber=randomPlacement(matrix, clusterNumber, N)
-    print(matrix)
+    if checkCluster(matrix, N): #check for cluster
+        break #we have a cluster formed now
+    
+
+
+print(matrix)
+
+#Find the pvalue 
+pValue=pValueCalc(matrix, N)
+
+print(pValue)
+
 
 
