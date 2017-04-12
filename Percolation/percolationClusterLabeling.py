@@ -43,7 +43,7 @@ def relabel(matrix, currentClusterNumber, adjacentNumber, row, col, N):
         matrix[matrix==adjacentNumber]=currentClusterNumber #use built in numpy to relabel
     else:
         matrix[matrix==currentClusterNumber]=adjacentNumber
-    checkAround(matrix, matrix[row][col], row, col, N)
+    matrix=checkAround(matrix, matrix[row][col], row, col, N)
     return matrix
 
 #Function check around the point for neighbors. If found some up/below/left/right it calls the relabel()
@@ -55,7 +55,7 @@ def checkAround(matrix, clusterNumber, row, col, N):
             matrix=relabel(matrix, clusterNumber,matrix[row-1][col], row, col, N)
     if row+1<N:
         if matrix[row+1][col]!=0 and matrix[row+1][col]!=clusterNumber:
-            relabel(matrix, clusterNumber,matrix[row+1][col], row, col, N)
+            matrix=relabel(matrix, clusterNumber,matrix[row+1][col], row, col, N)
     if col-1>=0:
         if matrix[row][col-1]!=0 and matrix[row][col-1]!=clusterNumber:
             matrix=relabel(matrix, clusterNumber,matrix[row][col-1], row, col, N)  
@@ -64,12 +64,18 @@ def checkAround(matrix, clusterNumber, row, col, N):
             matrix=relabel(matrix, clusterNumber,matrix[row][col+1], row, col, N)    
     return matrix
 
-#Random placement of values. Calls the CheckAround function once the value is placed
-# Keeps track of the number we are placing by increasing it every time by 1.
-def randomPlacement(matrix, clusterNumber, N):
+def generateRandomPosition(N):
     random.seed() #seed random number generator
     row=int(random.random()*N) #select random row and column for placement
     col=int(random.random()*N)
+    return row, col
+
+#Random placement of values. Calls the CheckAround function once the value is placed
+# Keeps track of the number we are placing by increasing it every time by 1.
+def randomPlacement(matrix, clusterNumber, N):
+    row, col=generateRandomPosition(N)
+    while matrix[row][col]!=0:
+        row, col=generateRandomPosition(N)
     matrix[row][col]=clusterNumber #place number
     matrix=checkAround(matrix, clusterNumber, row, col, N) #check around for neighbors
     return matrix, clusterNumber+1
