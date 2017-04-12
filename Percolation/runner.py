@@ -53,12 +53,9 @@ print("hello")
 
 # Parameters
 Nvalues = numpy.array([5,10,15,20,30,50,80])  # Range of N's
-Nspecial = 100                                # Special case for finding F
 runs = 50                                     # Number of runs to average over
 pValues=numpy.zeros(len(Nvalues))             # Array for the p-values, same length as N
 count = 0                                     # Counter for the position in the pValues array
-
-# ADD INITIALIZATIONS FOR FINDING F HERE **************************************
 
 # ------------------------------------------------------------------------------
 
