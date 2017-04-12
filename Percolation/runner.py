@@ -4,13 +4,23 @@
 from percolationClusterLabeling import mainFunction 
 import numpy
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 
+
+###### FUNCTION for the curve fit
+def func(x,a,b,c):
+    return a*numpy.exp(b*x)+c
+
+
+import time
+start = time.time()
+print("hello")
 
 ##### INPUT parameters
 #Range of Ns
-Nvalues=numpy.array([5,10,15,20,30, 50,80])
+Nvalues=numpy.array([5,10,15,20,30, 50,80]) #5,10,15,20,30, 50,
 #Number or runs <----------- Need to be 50
-runs=50
+runs=1
 
 ############ Runner
 # Array for the p-values, same length as N
@@ -23,7 +33,7 @@ count=0
 for N in Nvalues:        
     sumPvalues=0 #value for calculating average, sum all over and then divide by sums
     for i in range(0,runs): #repeat specified number of times
-
+    
         ## IMPORTANT: to save GIF parse TRUE, BUT need player AND takes long
         value, matrix=mainFunction(N, False) #call the main function. Does everything
         sumPvalues+=value
@@ -35,19 +45,25 @@ for N in Nvalues:
 print(pValues)
 print(matrix)
 
+end = time.time()
+print(end - start)
 
 ######
 #Need plot for the x=N^-1 and Pc
 x=1/Nvalues
 
 #create a fit
-fit=numpy.polyfit(x,pValues,1)
+fit=numpy.polyfit(numpy.log(x),numpy.log(pValues),1)
 fit_fn=numpy.poly1d(fit)
+
+best_vals, pcov = curve_fit(func,x, pValues)
+print(best_vals)
+
 
 fig = plt.subplot()
 plt.title('Critical probability and the lattice size',fontsize=20)
-plt.plot(x, pValues, color= 'tomato', label='', lw=3)
-plt.plot(x, fit_fn(x),color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit')
+plt.scatter(x, pValues, color= 'tomato', label='', lw=3)
+plt.plot(x, best_vals[0]*numpy.exp(best_vals[1]*x)+best_vals[2],color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit')
 plt.ylabel('Critical probability, $p_c$',fontsize=15)
 plt.xlabel('$N^{-1}$, N=size of matrix',fontsize=15)
 plt.legend()
