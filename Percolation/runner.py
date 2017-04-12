@@ -36,6 +36,8 @@ for N in Nvalues:
     
         ## IMPORTANT: to save GIF parse TRUE, BUT need player AND takes long
         value, matrix=mainFunction(N, False) #call the main function. Does everything
+        if N>30:
+            print('Finished for run',i,'for matrix', N)
         sumPvalues+=value
     print('Still working, found the p values for matrix of size ', N) #update for the user
     #now we have pvalues summer 'runs' times
