@@ -96,48 +96,29 @@ def checkCluster(matrix, N):
                         return True 
     return False
 
-
+#Finding the p value for the matrix - count number of non-zero entries and 
+# divide by the size of matrix N**2
 def pValueCalc(matrix, N):
-    return numpy.count_nonzero(matrix)/N
+    return numpy.count_nonzero(matrix)/N**2
+
+#Main runner for the function
+#Takes in the matrix and evaluates everything
+#RETURNS: pValue and matrix
+def mainFunction(N):
+    #initialize variables for the run
+    cluster=False
+    clusterNumber=1 #initialize the cluster number
+    matrix=numpy.zeros((N, N)) #initialize matrix
+    while not cluster: 
+        matrix, clusterNumber=randomPlacement(matrix, clusterNumber, N)
+        if checkCluster(matrix, N): #check for cluster
+            break #we have a cluster formed now
+    pValue=pValueCalc(matrix, N)
+    return (pValue, matrix)
 
 
 
 
-
-
-
-##########################################################################################
-
-
-############################################
-############################################
-###### Run the code
-############################################
-############################################
-
-
-####################### To test
-###### For fixed N
-N=40  #define size of matrix
-matrix=numpy.zeros((N, N)) #initialize matrix
-
-clusterNumber=1 #initialize the cluster number
-
-cluster=False
-
-while not cluster: #repeat 10 times
-    matrix, clusterNumber=randomPlacement(matrix, clusterNumber, N)
-    if checkCluster(matrix, N): #check for cluster
-        break #we have a cluster formed now
-    
-
-
-print(matrix)
-
-#Find the pvalue 
-pValue=pValueCalc(matrix, N)
-
-print(pValue)
 
 
 
