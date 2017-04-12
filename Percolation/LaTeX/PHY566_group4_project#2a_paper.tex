@@ -74,7 +74,7 @@ Probability ranges and the theoretical results of such values are displayed in T
 \endminipage}
 \end{table}
 
-Another important value in percolation theory is the fraction of all sites in the spanning cluster with respect to all occupied sites. This value is dfined as $F$ and takes the form
+Another important value in percolation theory is the fraction of all sites in the spanning cluster with respect to all occupied sites. This value is defined as $F$ and takes the form
 \begin{equation}
   \label{eq:spanningfraction}
   F = F_0 \left(p - p_c\right)^\beta,
@@ -93,7 +93,7 @@ The steps for generating a $2D$ percolating lattice are quite simple:
   \begin{enumerate}
     \item If the new site touches an old site, add it to the cluster
     \item If the new site doesn't touch an old site, define it to be a new cluster
-    \item If the new site touches multiple different clusters, choose one at random to "win" and overtake the other clusters
+    \item If the new site touches multiple different clusters, choose the smaller numbered cluster to "win" and overtake the other clusters
   \end{enumerate}
   \item Repeat until a spanning cluster arises
 \end{enumerate}
@@ -114,6 +114,40 @@ In Section~\ref{sec:results}, we computationally explore such a $2D$ lattice and
 \section{Results}
 \label{sec:results}
 
+First we determine the critical probability by running the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, every time finding the $p_c$. 
+
+To do this computationally, we used the cluster labeling method outlined above. Before running the averaging step, we tested the performance of our code by checking the dependencies between the time required to run one iteration and the size of the matrix. Please see results on Figure ~\ref{fig:timeElapsed}. We observe that our code is complexity $O[N^2]$, this is expected from the algorithm. This means that the larger the matrix, the worse the code performs, with squared scaling. And the change for the bad side happens relatively quickly. While this is durable for the cases we are observing, for larger matrices we would need to switch to the different algorithm.
+\begin{figure}[!htb]
+\centerline{\minipage{.6\textwidth}
+  \includegraphics[width=\linewidth]{timeElapsed1.png}
+  \caption{Time elapsed and size of the matrix}\label{fig:timeElapsed}
+\endminipage}
+\end{figure}
+
+Before checking finding the $p_c$ we can also visually observe formation of clusters. (Note: on github project you can also find a .gif of the process). On the Figures ~\ref{fig:snapshotN30One} to ~\ref{fig:snapshotN30Spanning} we see the development of the cluster for $N=30$. In the beginning, as expected, we see many small clusters. As $p$ increases we observe formation of larger clusters, but still no spanning cluster. And at the end we see one large spanning cluster, and just a couple of smaller clusters. 
+
+\begin{figure}[!htb]
+\minipage{0.3\textwidth}
+  \includegraphics[width=\linewidth]{snapshotN30One.png}
+  \caption{2D percolation start}\label{fig:snapshotN30One}
+\endminipage\hfill
+\minipage{0.3\textwidth}
+  \includegraphics[width=\linewidth]{snapshotN30Two.png}
+  \caption{2D percolation intermediate}\label{fig:snapshotN30Two}
+\endminipage\hfill
+\minipage{0.3\textwidth}
+  \includegraphics[width=\linewidth]{snapshotN30Spanning.png}
+  \caption{2D percolation spanning cluster}\label{fig:snapshotN30Spanning}
+\endminipage\hfill
+\end{figure}
+
+To find critical probability, we ran the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, averaging for every N. Please see the resulting plot attached (Figure ~~\ref{fig:criticalProb}). Extrapolating, we found the critical probability to be \textbf{$0.598$}. This is very close to the theoretical value of $0.593$. 
+\begin{figure}[!htb]
+\centerline{\minipage{.7\textwidth}
+  \includegraphics[width=\linewidth]{criticalProb10runs0dot598.png}
+  \caption{Critical probability plot for2D percolation}\label{fig:criticalProb}
+  \endminipage}
+\end{figure}
 
 
 \end{document}
