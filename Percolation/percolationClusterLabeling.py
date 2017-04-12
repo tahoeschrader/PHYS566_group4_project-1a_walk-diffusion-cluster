@@ -51,7 +51,7 @@ def relabel(matrix, currentClusterNumber, adjacentNumber, row, col, N):
 # Function for checking neighbors. If found, call relabel().
 def checkAround(matrix, clusterNumber, row, col, N):
     # All the if statements are needed to ensure we are not out of bounds
-    if row-1> = 0 :
+    if row-1 >= 0 :
         if matrix[row-1][col] != 0 and matrix[row-1][col] != clusterNumber :
             matrix = relabel(matrix, clusterNumber, matrix[row-1][col], row, col, N)
     if row+1 < N :
