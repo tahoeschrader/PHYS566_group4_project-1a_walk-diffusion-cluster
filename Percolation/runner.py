@@ -9,7 +9,7 @@ from scipy.optimize import curve_fit
 
 ###### FUNCTION for the curve fit
 def func(x,a,b,c):
-    return a*numpy.exp(b*x)+c
+    return a*x/(b+x)+c
 
 
 import time
@@ -18,9 +18,9 @@ print("hello")
 
 ##### INPUT parameters
 #Range of Ns
-Nvalues=numpy.array([5,10,15,20,30, 50,80]) #5,10,15,20,30, 50,
+Nvalues=numpy.array([5,10,15,20,30,50,80])
 #Number or runs <----------- Need to be 50
-runs=1
+runs=50
 
 ############ Runner
 # Array for the p-values, same length as N
@@ -53,21 +53,22 @@ print(end - start)
 x=1/Nvalues
 
 #create a fit
-fit=numpy.polyfit(numpy.log(x),numpy.log(pValues),1)
-fit_fn=numpy.poly1d(fit)
+#fit=numpy.polyfit(numpy.log(x),numpy.log(pValues),2)
+#fit_fn=numpy.poly1d(fit)
 
 best_vals, pcov = curve_fit(func,x, pValues)
 print(best_vals)
+print('The critical value is',str(round(best_vals[2],3)))
 
+xMany=numpy.arange(0,0.2, 0.01)
 
 fig = plt.subplot()
 plt.title('Critical probability and the lattice size',fontsize=20)
 plt.scatter(x, pValues, color= 'tomato', label='', lw=3)
-plt.plot(x, best_vals[0]*numpy.exp(best_vals[1]*x)+best_vals[2],color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit')
+plt.plot(xMany, xMany*best_vals[0]/(xMany+best_vals[1])+best_vals[2],color='dodgerblue',linestyle='dashed', linewidth = 3, label='best fit')
 plt.ylabel('Critical probability, $p_c$',fontsize=15)
 plt.xlabel('$N^{-1}$, N=size of matrix',fontsize=15)
 plt.legend()
-fig.text(0.1,0.6,'Curve parameters: $N^{-1}*$'+str(round(fit[0],3))+'+'+str(round(fit[1],3)))
 plt.grid()
 fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
