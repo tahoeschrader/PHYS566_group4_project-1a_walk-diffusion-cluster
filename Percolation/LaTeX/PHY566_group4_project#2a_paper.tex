@@ -50,7 +50,7 @@ Our code is available on GitHub: \\
 \label{sec:theory}
 Percolation theory describes the behavior of connected clusters. This theory has many important relations to physics and chemistry. For example, it can be used to describe the movement and filtering of fluids through porous materials. When a system \emph{percolates}, a $2^\text{nd}$ order phase transition can also result.
 
-The act of percolation refers to the existence of a spanning cluster. A spanning cluster is a cluster that reaches all edges of a physical boundary. For example, a spanning cluster must touch all four sides of a $2D$ box as seen in Figure~\ref{fig:spanningclusterexample}. Percolation, i.e. a system exhibiting a spanning cluster, is interesting because universality is \emph{also} exhibited. Universality is when the properties of the system are independent of the systems dynamical details.
+The act of percolation refers to the existence of a spanning cluster. A spanning cluster is a cluster that reaches all edges of a physical boundary. For example, a spanning cluster must touch all four sides of a $2D$ box. Percolation, i.e. a system exhibiting a spanning cluster, is interesting because universality is \emph{also} exhibited. Universality is when the properties of the system are independent of the systems dynamical details.
 
 One feature of the percolating system that we would like to document is the clustering probability, $p_c$, where generally
 \begin{equation}
@@ -74,7 +74,12 @@ Probability ranges and the theoretical results of such values are displayed in T
 \endminipage}
 \end{table}
 
-Another important value in percolation theory is the fraction of all sites in the spanning cluster with respect to all occupied sites. This value is defined as $F$ and takes the form
+Another important value in percolation theory is the fraction of all sites in the spanning cluster with respect to all occupied sites
+\begin{equation}
+  \label{eq:fraction}
+  F = \frac{\text{\# of spanning sites}}{\text{total \# of cluster sites}}.
+  \end{equation}
+This value also takes the form
 \begin{equation}
   \label{eq:spanningfraction}
   F = F_0 \left(p - p_c\right)^\beta,
