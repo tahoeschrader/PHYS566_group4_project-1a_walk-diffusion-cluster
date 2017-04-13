@@ -1,3 +1,9 @@
+
+###
+###
+### ----------------------------------------------------------------------------
+### Then, for the special case where N = 100:
+
 ### Group 4
 ### Computational Physics
 ### Spring, 2017
