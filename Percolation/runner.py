@@ -72,9 +72,9 @@ for N in Nvalues:
         sumPvalues += value
 
     # Now, average the p values and update the counter
-    pValues[count]=sumPvalues/runs
+    pValues[count] = float(sumPvalues/runs)
     print('Pc for the size ',N,'is', pValues[count])
-    count+=1
+    count += 1
 
     #save the final figure for the cluster
     # Define the map for the plot
@@ -99,7 +99,7 @@ end = time.time()
 print(end - start, 'time elapsed')
 
 
-#Need plot for the x=N^-1 and Pc
+# Need plot for the x=N^-1 and Pc
 x = 1. / Nvalues
 
 #create a fit
