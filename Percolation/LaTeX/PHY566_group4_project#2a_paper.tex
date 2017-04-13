@@ -32,7 +32,7 @@ letterpaper]{geometry}%
 
 % Article Information
 \title{Percolation of a 2D Lattice}
-\author{Tahoe Schrader, Ksenia Sokolova \\PHYS566}
+\author{Tahoe Schrader and Ksenia Sokolova \\PHYS566}
 \date{}
 
 % Begin writing document
@@ -222,7 +222,7 @@ To find a fit for the $\beta$ we used a log transform:
     log(F)=log(F_0)+\beta*log(p-p_c)
 \end{equation}
 
-Please refer to the Figure \ref{fig:fraction100} for the plot.
+Please refer to the Figure \ref{fig:fraction100} and \ref{fig:fraction100log} for the plots.
 
 We ran the code for the $N=100$ three times. The resulting $\beta$ were
 \item 0.138344512943
@@ -234,11 +234,14 @@ Theoretical value of $\beta$ in decimal format is $0.1388889$
 Therefore, our code consistently returned experimental $\beta$ close to the theoretical values. The visual inspection of the plots also showed good fits.
 
 \begin{figure}[!htb]
-\centerline{\minipage{0.75\textwidth}
+\minipage{0.45\textwidth}
   \includegraphics[width=\linewidth]{fractionFwithFit10percN100Axis.png}
   \caption{Fraction of sites in percolating cluster as function of concentration, N=100, average over 50 runs}\label{fig:fraction100}
-\endminipage}
-
+\endminipage\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{fractionFwithFit10percN100loglog.png}
+  \caption{Fraction of sites in percolating cluster as function of concentration, N=100, average over 50 runs with log-log axes}\label{fig:fraction100log}
+\endminipage\hfill
 \end{figure}
 
 \end{document}
