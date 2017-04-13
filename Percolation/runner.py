@@ -8,17 +8,8 @@
 ### Run the code over various N 50x to create an average
 ###      --- COMPLETE
 ### Plot pc(N^-1) to extrapolate infinite size limit pc(0)
-###      --- INCOMPLETE
-### ----------------------------------------------------------------------------
-### Then, for the special case where N = 100:
-### Determine F(p>pc) = # spanning sites / # occupied sites average over 50x
-###      --- INCOMPLETE
-### Plot F = F0(p-pc)^beta
-###      --- INCOMPLETE
-### Fit the result to a power-ansatz law by plotting the log of both sides and
-### extracting the slope with a line of best fit. P must not be too far above pc.
-###      --- INCOMPLETE
-################################################################################
+###      --- COMPLETE
+
 
 # ------------------------------------------------------------------------------
 
@@ -26,6 +17,10 @@ from percolationClusterLabeling import mainFunction
 import numpy
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from matplotlib import colors
+from matplotlib import cm
+from matplotlib.cm import hot
+
 
 # ------------------------------------------------------------------------------
 
@@ -53,7 +48,9 @@ print("hello")
 
 # Parameters
 Nvalues = numpy.array([5,10,15,20,30,50,80])  # Range of N's
+
 runs = 50                                     # Number of runs to average over
+
 pValues=numpy.zeros(len(Nvalues))             # Array for the p-values, same length as N
 count = 0                                     # Counter for the position in the pValues array
 
@@ -71,26 +68,41 @@ for N in Nvalues:
         # IMPORTANT: to save GIF plug in TRUE, BUT need player AND takes long
 
         # Call the main function
-        value, matrix = mainFunction(N, False)
+        value, matrix, spanningNumber, clusterNumber = mainFunction(N, False)
         sumPvalues += value
 
     # Now, average the p values and update the counter
     pValues[count]=sumPvalues/runs
+    print('Pc for the size ',N,'is', pValues[count])
     count+=1
 
+    #save the final figure for the cluster
+    # Define the map for the plot
+    cmap = cm.autumn.from_list('whatever', ('skyblue', 'midnightblue'), N=30)
+    cmap.set_bad(color='white')
+    #'mask' 0's to always get them white
+    matrixPlot = numpy.ma.masked_where(matrix < 0.05, matrix)
+    #plot
+    fig = plt.subplot()
+    plt.title(str("Percolation"+ str(N)), fontsize=20)
+    plt.matshow(matrixPlot, interpolation='nearest',cmap=cmap) #ocean, Paired
+    plt.xlabel("direction, $x$", fontsize=15)
+    plt.ylabel("direction, $y$", fontsize=15)
+    plt.savefig("images/percolation{}.png".format(N))
+    plt.show(block=False)
+    plt.close()
+
+
 print(pValues)
-print(matrix)
 
 end = time.time()
-print(end - start)
+print(end - start, 'time elapsed')
 
 
 #Need plot for the x=N^-1 and Pc
 x = 1. / Nvalues
 
 #create a fit
-#fit=numpy.polyfit(numpy.log(x),numpy.log(pValues),2)
-#fit_fn=numpy.poly1d(fit)
 
 best_vals, pcov = curve_fit(func,x, pValues)
 print(best_vals)

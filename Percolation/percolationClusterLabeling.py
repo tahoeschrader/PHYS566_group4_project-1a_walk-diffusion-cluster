@@ -102,9 +102,9 @@ def checkCluster(matrix, N) :
     # Check for common elements. Result is an empty list if no common elements.
     match = list(set(upperRowNumbers).intersection(leftColNumbers).intersection(lowRowNumbers).intersection(rightColNumbers))
     if match == [] :
-        return False
+        return False,0
 
-    return True
+    return True, match
 
 # Function that finds the p value for the matrix - count number of non-zero entries and
 # divide by the size of matrix N**2
@@ -162,8 +162,9 @@ def mainFunction(N, needGif):
             plt.show(block=False)
             plt.close()
         ###################
-        if checkCluster(matrix, N) : # check for cluster
 
+        clusterFormed, spanningNumber=checkCluster(matrix, N)
+        if clusterFormed : # check for cluster
             break # we have a cluster formed now
 
     # save the final plot
@@ -192,4 +193,4 @@ def mainFunction(N, needGif):
             writer.append_data(image)
     ###################
 
-    return (pValue, matrix)
+    return (pValue, matrix, spanningNumber, clusterNumber)
