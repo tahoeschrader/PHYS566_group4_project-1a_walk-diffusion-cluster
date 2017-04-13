@@ -66,8 +66,8 @@ def fractionInSpanning(N):
                 #print('F=',F, 'for p=', p)
         return pVector, FVector
 
-N=30
-runs=50
+N=100
+runs=1
 #run fractionInSpanning once to get the size of pVector
 #pValue=numpy.arange(0.6, 1,0.01)
 #pSums, FSums=fractionInSpanning(N)
@@ -131,8 +131,8 @@ print('beta is:',best_vals[1], 'theoretical', 5/36)
 fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
 plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
-plt.ylabel('p',fontsize=15)
-plt.xlabel('$F$',fontsize=15)
+plt.ylabel('F',fontsize=15)
+plt.xlabel('$p$',fontsize=15)
 plt.grid()
 fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
@@ -143,12 +143,27 @@ fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
 plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
 plt.plot(pCut,numpy.exp(best_vals[0])*(pCut-pC)**best_vals[1],color='dodgerblue',linestyle='dashed', linewidth = 3)
-plt.ylabel('p',fontsize=15)
-plt.xlabel('$F$',fontsize=15)
+plt.ylabel('F',fontsize=15)
+plt.xlabel('$p$',fontsize=15)
 plt.grid()
 fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
 plt.savefig("images/fractionFwithFit10perc.png")
+plt.show(block=False)
+
+
+fig = plt.subplot()
+plt.title('Log-log plot for percolating cluster',fontsize=20)
+plt.plot(pVector-pC,FVector, color= 'tomato', label='', lw=2)
+plt.plot(pCut,best_vals[0]+(pCutlog)*best_vals[1],color='dodgerblue',linestyle='dashed', linewidth = 3)
+plt.ylabel('log(F)',fontsize=15)
+plt.xlabel('$log(p-$p_c$)$',fontsize=15)
+plt.grid()
+fig.set_xscale('log')
+fig.set_yscale('log')
+fig.spines["top"].set_visible(False)
+fig.spines["right"].set_visible(False)
+plt.savefig("images/fractionFwithFit10percLOGLOG.png")
 plt.show(block=False)
 
 #Compare: what if we take ~first 20% of points and go the power fit (this is the measure of 'close' to p_c)

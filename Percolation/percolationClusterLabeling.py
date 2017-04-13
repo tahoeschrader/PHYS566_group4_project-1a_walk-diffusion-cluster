@@ -102,14 +102,14 @@ def checkCluster(matrix, N) :
     # Check for common elements. Result is an empty list if no common elements.
     match = list(set(upperRowNumbers).intersection(leftColNumbers).intersection(lowRowNumbers).intersection(rightColNumbers))
     if match == [] :
-        return False,0
+        return False, 0
 
     return True, match
 
 # Function that finds the p value for the matrix - count number of non-zero entries and
 # divide by the size of matrix N**2
 def pValueCalc(matrix, N):
-    return numpy.count_nonzero(matrix) / (N**2)
+    return float(numpy.count_nonzero(matrix)) / (N**2)
 
 # ------------------------------------------------------------------------------
 
@@ -176,6 +176,7 @@ def mainFunction(N, needGif):
         plt.ylabel("direction, $y$", fontsize=15)
         plt.savefig("images/percolation.png")
         plt.show(block=False)
+
     pValue = pValueCalc(matrix, N)
 
 
