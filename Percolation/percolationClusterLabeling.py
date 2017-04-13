@@ -162,13 +162,9 @@ def mainFunction(N, needGif):
             plt.show(block=False)
             plt.close()
         ###################
-<<<<<<< HEAD
+
         clusterFormed, spanningNumber=checkCluster(matrix, N)
         if clusterFormed : # check for cluster
-=======
-        if checkCluster(matrix, N) : # check for cluster
-
->>>>>>> master
             break # we have a cluster formed now
 
     # save the final plot
