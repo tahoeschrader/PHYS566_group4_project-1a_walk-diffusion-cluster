@@ -81,6 +81,19 @@ Another important value in percolation theory is the fraction of all sites in th
 \end{equation}
 where $\beta$ is the critical exponent.
 
+In the infinite size limit, this fraction parameter is proved to have the singular behavior
+\begin{equation}
+  \label{eq:spanningfraction2}
+F(p) =\left\{
+\begin{aligned}
+&0 \ \ & p<p_c \\
+&F_0(p-p_c)^\beta \ \ & p\geq p_c 
+\end{aligned}
+\right.
+\end{equation}
+,where the order parameter critical exponent $\beta$ = 5/36 for percolation on a 2-D square lattice.
+
+
 \subsection{2D Lattice Systems}
 \label{sec:lattice}
 
@@ -156,21 +169,5 @@ To find critical probability, we ran the code for $N=5, 10, 15, 20, 30, 50, 80$ 
 \label{sec:beta}
 Next, we fixed $N=100$ and computationally obtained Equation~\ref{eq:spanningfraction}.
 
-\begin{equation}
-  \label{eq:spanningfraction2}
-  logF=logF_0+\beta log(p-p_c)
-\end{equation}
-
-In the infinite size limit, this fraction parameter is proved to have the singular behavior
-\begin{equation}
-  \label{eq:spanningfraction2}
-F(p) =\left\{
-\begin{aligned}
-&0 \ \ & p<p_c \\
-&F_0(p-p_c)^\beta \ \ & p\geq p_c 
-\end{aligned}
-\right.
-\end{equation}
-,where the order parameter critical exponent $\beta$ = 5/36 for percolation on a 2-D square lattice. In our algorithm, the fraction of number of sites in spanning cluster and the number of all occupied sites is calculated and stored for each simulation with a given occupation probability, $p$. And we plot the $logF-log(p-p_c)$ figure to find the parameter of the constant $F_0$ and exponential component $\beta$.   
 
 \end{document}
