@@ -1,5 +1,5 @@
 #
-
+#
 ### ----------------------------------------------------------------------------
 ### Then, for the special case where N = 100:
 ### Determine F(p>pc) = # spanning sites / # occupied sites average over 50x
