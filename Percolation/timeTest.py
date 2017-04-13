@@ -12,7 +12,7 @@ count=0
 for N in NValues:
     start = time.time()
     print("Started calculation for N=", N)
-    value, matrix=mainFunction(N, False)
+    value, matrix, spanningNumber, clusterNumber=mainFunction(N, False)
     end = time.time()
     print('Time required for N=', N,end - start)
     timeArray[count]=end - start
