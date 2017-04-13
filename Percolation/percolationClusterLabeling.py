@@ -8,9 +8,9 @@
 ### occupied sites among lattice sites in general. Therefore, each population
 ### step wil increase p. We want this code to:
 ### BASE code for placing numbers and checking for neighbors, relabeling if needed
-###      ---- DONE
+###      ---- COMPLETE
 ### Check for the spanning cluster
-###      ---- DONE
+###      ---- COMPLETE
 ### Determine pc
 ###      --- COMPLETE
 ### Create GIF of the peroclating cluster being created
@@ -162,8 +162,13 @@ def mainFunction(N, needGif):
             plt.show(block=False)
             plt.close()
         ###################
+<<<<<<< HEAD
         clusterFormed, spanningNumber=checkCluster(matrix, N)
         if clusterFormed : # check for cluster
+=======
+        if checkCluster(matrix, N) : # check for cluster
+
+>>>>>>> master
             break # we have a cluster formed now
 
     # save the final plot
