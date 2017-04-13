@@ -28,7 +28,7 @@ letterpaper]{geometry}%
 \rhead{\small\sffamily\bfseries\rightmark}
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
-%\graphicspath{{}}
+\graphicspath{{images/}}
 
 % Article Information
 \title{Percolation of a 2D Lattice}
@@ -114,7 +114,10 @@ In Section~\ref{sec:results}, we computationally explore such a $2D$ lattice and
 \section{Results}
 \label{sec:results}
 
-First we determine the critical probability by running the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, every time finding the $p_c$. 
+\subsection{Extracting $p_c$}
+\label{sec:pc}
+
+First we determine the critical probability by running the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, every time finding the $p_c$.
 
 To do this computationally, we used the cluster labeling method outlined above. Before running the averaging step, we tested the performance of our code by checking the dependencies between the time required to run one iteration and the size of the matrix. Please see results on Figure ~\ref{fig:timeElapsed}. We observe that our code is complexity $O[N^2]$, this is expected from the algorithm. This means that the larger the matrix, the worse the code performs, with squared scaling. And the change for the bad side happens relatively quickly. While this is durable for the cases we are observing, for larger matrices we would need to switch to the different algorithm.
 \begin{figure}[!htb]
@@ -124,7 +127,7 @@ To do this computationally, we used the cluster labeling method outlined above. 
 \endminipage}
 \end{figure}
 
-Before checking finding the $p_c$ we can also visually observe formation of clusters. (Note: on github project you can also find a .gif of the process). On the Figures ~\ref{fig:snapshotN30One} to ~\ref{fig:snapshotN30Spanning} we see the development of the cluster for $N=30$. In the beginning, as expected, we see many small clusters. As $p$ increases we observe formation of larger clusters, but still no spanning cluster. And at the end we see one large spanning cluster, and just a couple of smaller clusters. 
+Before checking finding the $p_c$ we can also visually observe formation of clusters. (Note: on github project you can also find a .gif of the process). On the Figures ~\ref{fig:snapshotN30One} to ~\ref{fig:snapshotN30Spanning} we see the development of the cluster for $N=30$. In the beginning, as expected, we see many small clusters. As $p$ increases we observe formation of larger clusters, but still no spanning cluster. And at the end we see one large spanning cluster, and just a couple of smaller clusters.
 
 \begin{figure}[!htb]
 \minipage{0.3\textwidth}
@@ -141,13 +144,16 @@ Before checking finding the $p_c$ we can also visually observe formation of clus
 \endminipage\hfill
 \end{figure}
 
-To find critical probability, we ran the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, averaging for every N. Please see the resulting plot attached (Figure ~~\ref{fig:criticalProb}). Extrapolating, we found the critical probability to be \textbf{$0.598$}. This is very close to the theoretical value of $0.593$. 
+To find critical probability, we ran the code for $N=5, 10, 15, 20, 30, 50, 80$ for 50 times, averaging for every N. Please see the resulting plot attached (Figure ~~\ref{fig:criticalProb}). Extrapolating, we found the critical probability to be \textbf{$0.598$}. This is very close to the theoretical value of $0.593$.
 \begin{figure}[!htb]
 \centerline{\minipage{.7\textwidth}
-  \includegraphics[width=\linewidth]{criticalProb10runs0dot598.png}
-  \caption{Critical probability plot for2D percolation}\label{fig:criticalProb}
+  \includegraphics[width=\linewidth]{MAINcriticalProb0593.png}
+  \caption{Critical probability plot for 2D percolation}\label{fig:criticalProb}
   \endminipage}
 \end{figure}
 
+\subsection{Extracting $\beta$}
+\label{sec:beta}
+Next, we fixed $N=100$ and computationally obtained Equation~\ref{eq:spanningfraction}.
 
 \end{document}
