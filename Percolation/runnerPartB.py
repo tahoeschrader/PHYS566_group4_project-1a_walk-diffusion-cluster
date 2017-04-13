@@ -34,6 +34,7 @@ from scipy.optimize import curve_fit
 
 
 def fractionInSpanning(N):
+        print('Calling function mainFunction')
         value, matrix, spanningNumber, clusterNumberOriginal = mainFunction(N, False)
         #value is the p_c
         #matrix is the updated matrix
@@ -66,7 +67,7 @@ def fractionInSpanning(N):
                 #print('F=',F, 'for p=', p)
         return pVector, FVector
 
-N=30
+N=100
 runs=50
 #run fractionInSpanning once to get the size of pVector
 #pValue=numpy.arange(0.6, 1,0.01)
@@ -176,3 +177,5 @@ fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
 plt.savefig("images/fractionFwithFit20perc.png")
 plt.show(block=False)
+
+
