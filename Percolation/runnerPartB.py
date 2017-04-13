@@ -1,9 +1,3 @@
-
-###
-###
-### ----------------------------------------------------------------------------
-### Then, for the special case where N = 100:
-
 ### Group 4
 ### Computational Physics
 ### Spring, 2017
@@ -150,8 +144,8 @@ print('beta is:',best_vals[1], 'theoretical', 5/36)
 fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
 plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
-plt.ylabel('p',fontsize=15)
-plt.xlabel('$F$',fontsize=15)
+plt.xlabel('p',fontsize=15)
+plt.ylabel('$F$',fontsize=15)
 plt.grid()
 fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
@@ -162,8 +156,8 @@ fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
 plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
 plt.plot(pCut,numpy.exp(best_vals[0])*(pCut-pC)**best_vals[1],color='dodgerblue',linestyle='dashed', linewidth = 3)
-plt.ylabel('p',fontsize=15)
-plt.xlabel('$F$',fontsize=15)
+plt.xlabel('p',fontsize=15)
+plt.ylabel('$F$',fontsize=15)
 plt.grid()
 fig.spines["top"].set_visible(False)
 fig.spines["right"].set_visible(False)
