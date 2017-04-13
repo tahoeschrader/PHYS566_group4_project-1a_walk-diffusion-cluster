@@ -123,14 +123,14 @@ def func(x, a, b):
         return a+b*(x)
 
 best_vals, pcov = curve_fit(func,pCutlog, fCutlog, p0=[0.1,1/36])
-print('beta is:',best_vals[1], 'theoretical', 5/36)
+print('beta is:',best_vals[1], 'theoretical', 5/36) #calculate the slope of the function log(fCut)=beta*log(pCut-pC)+logF0; compare with theoretical value
 
 
 
 
 fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
-plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
+plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2) #plot F calculated by its definition
 plt.ylabel('p',fontsize=15)
 plt.xlabel('$F$',fontsize=15)
 plt.grid()
@@ -139,10 +139,11 @@ fig.spines["right"].set_visible(False)
 plt.savefig("images/fractionF.png")
 plt.show(block=False)
 
+
 fig = plt.subplot()
 plt.title('Fraction of sites in percolating cluster',fontsize=20)
 plt.scatter(pVector,FVector, color= 'tomato', label='', lw=2)
-plt.plot(pCut,numpy.exp(best_vals[0])*(pCut-pC)**best_vals[1],color='dodgerblue',linestyle='dashed', linewidth = 3)
+plt.plot(pCut,numpy.exp(best_vals[0])*(pCut-pC)**best_vals[1],color='dodgerblue',linestyle='dashed', linewidth = 3) #plot F calculated using fitting parameter beta and F0
 plt.ylabel('p',fontsize=15)
 plt.xlabel('$F$',fontsize=15)
 plt.grid()
