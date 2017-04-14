@@ -72,7 +72,7 @@ def generateRandomPosition(N):
     col = int(random.random()*N)
     return row, col
 
-# Function to turn a random unoccupied spot into a cluster
+# Function to turn a random unoccupied spot into a cluster (nonzero is a cluster; zero is mot (an unoccupied state))
 def randomPlacement(matrix, clusterNumber, N):
     row, col = generateRandomPosition(N)
     while matrix[row][col] != 0 :
@@ -106,7 +106,7 @@ def checkCluster(matrix, N) :
 
     return True, match
 
-# Function that finds the p value for the matrix - count number of non-zero entries and
+# Function that finds the occupation value p for the matrix - count number of non-zero entries and
 # divide by the size of matrix N**2
 def pValueCalc(matrix, N):
     return float(numpy.count_nonzero(matrix)) / (N**2)
@@ -145,7 +145,7 @@ def mainFunction(N, needGif):
     cmap = cm.autumn.from_list('whatever', ('skyblue', 'midnightblue'), N=30)
     cmap.set_bad(color='white')
 
-    # Fill in the matrix
+    # Fill in the matrix and count local numbers
     while not cluster:
         matrix, clusterNumber = randomPlacement(matrix, clusterNumber, N)
         counterLocal += 1
