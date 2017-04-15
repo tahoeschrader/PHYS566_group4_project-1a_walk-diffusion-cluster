@@ -11,7 +11,11 @@ This is a computationally easy feat to enact:
 2. Populate a single lattice site at random and define it to be a cluster
 3. Populate another single lattice site at random
 4. If the new site touches an old site, define it to be a part of that cluster, otherwise define it as a new cluster
-5. If the new site touches multiple old sites, randomly choose one cluster to "win" and redefine all touching clusters to be a part of the "winning" cluster
+5. If the new site touches multiple old sites, choose the cluster with smaller index to "win" and redefine all touching clusters to be a part of the "winning" cluster
 6. Repeat until the same cluster touches all four sides
 
+Here is the .gif of the cluster formation, produced by the code:
+<p align="center">
+  <img src="/Percolation/images/movie40.gif" width="500">
+</p>
 
